@@ -1,10 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="seed">#4b0082</color>
+    <color name="md_theme_primary">#7B41B3</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#F0DBFF</color>
+    <color name="md_theme_onPrimaryContainer">#2C0050</color>
+    <color name="md_theme_secondary">#665A6F</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#EDDDF6</color>
+    <color name="md_theme_onSecondaryContainer">#211829</color>
+    <color name="md_theme_tertiary">#805157</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#FFD9DC</color>
+    <color name="md_theme_onTertiaryContainer">#321016</color>
+    <color name="md_theme_error">#BA1A1A</color>
+    <color name="md_theme_errorContainer">#FFDAD6</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_onErrorContainer">#410002</color>
+    <color name="md_theme_background">#FFFBFF</color>
+    <color name="md_theme_onBackground">#1D1B1E</color>
+    <color name="md_theme_surface">#FFFBFF</color>
+    <color name="md_theme_onSurface">#1D1B1E</color>
+    <color name="md_theme_surfaceVariant">#E9DFEB</color>
+    <color name="md_theme_onSurfaceVariant">#4A454E</color>
+    <color name="md_theme_outline">#7C757E</color>
+    <color name="md_theme_inverseOnSurface">#F6EFF4</color>
+    <color name="md_theme_inverseSurface">#322F33</color>
+    <color name="md_theme_inversePrimary">#DDB7FF</color>
+    <color name="md_theme_shadow">#000000</color>
+    <color name="md_theme_surfaceTint">#7B41B3</color>
+    <color name="md_theme_surfaceTintColor">#7B41B3</color>
 </resources>
