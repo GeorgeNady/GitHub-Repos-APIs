@@ -29,6 +29,13 @@ android {
                 arguments += ["dagger.hilt.disableModulesHaveInstallInCheck": "true",]
             }
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        // use it with BuildConfig.GITHUB_API_TOKEN in my android code
+        // kindly add GITHUB_API_TOKEN={abc123} in the local.properties
+        buildConfigField "String", "GITHUB_API_TOKEN", "\"${properties.getProperty("GITHUB_API_TOKEN")}\""
     }
 
     buildTypes {

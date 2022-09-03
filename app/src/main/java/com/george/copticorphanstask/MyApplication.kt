@@ -7,8 +7,13 @@ import timber.log.Timber
 @HiltAndroidApp
 class MyApplication : Application() {
 
+    companion object {
+        lateinit var mApplication: Application
+    }
+
     override fun onCreate() {
         super.onCreate()
+        mApplication = this
         setupTimber()
     }
 

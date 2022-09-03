@@ -38,7 +38,7 @@ buildscript {
         workmanager_version = '2.7.1'
 
         liberaries = [
-                koltin      : [
+                koltin     : [
                         "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
                         "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
                 ],
@@ -50,7 +50,16 @@ buildscript {
                         "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version",
                         "com.facebook.shimmer:shimmer:$shimmer_version",
                 ],
-                glide       : [
+                // ktx support for ViewModels
+                ktx        : [
+                        "androidx.activity:activity-ktx:1.5.1",
+                        "androidx.fragment:fragment-ktx:1.5.2"
+                ],
+                navigation : [
+                        "androidx.navigation:navigation-fragment-ktx:$navigation_version",
+                        "androidx.navigation:navigation-ui-ktx:$navigation_version"
+                ],
+                glide      : [
                         "com.github.bumptech.glide:glide:$glide_version",
                         "com.github.bumptech.glide:okhttp3-integration:4.4.0",
                 ],
@@ -58,11 +67,11 @@ buildscript {
                         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version", // ViewModel
                         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version", // LiveData
                 ],
-                coroutine   : [
+                coroutine  : [
                         "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
                         "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
                 ],
-                network     : [
+                network    : [
                         "com.squareup.retrofit2:retrofit:$retrofit2_version",
                         "com.squareup.retrofit2:converter-gson:$retrofit2_version",
                         "com.squareup.okhttp3:okhttp:$okhttp3_version",
@@ -77,7 +86,6 @@ buildscript {
                 others     : [
                         "com.jakewharton.timber:timber:$timber_version", // timber
                         "androidx.work:work-runtime:$workmanager_version", // work manager
-
                 ]
 
         ]
