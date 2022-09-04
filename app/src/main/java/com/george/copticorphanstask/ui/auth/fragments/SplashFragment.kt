@@ -16,13 +16,15 @@ class SplashFragment : BaseFragment() {
 
     private val binding by lazy { FragmentSplashBinding.inflate(layoutInflater) }
 
-    private val animatorListener = object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator?) {}
-        override fun onAnimationCancel(animation: Animator?) {}
-        override fun onAnimationRepeat(animation: Animator?) {}
-        override fun onAnimationEnd(animation: Animator?) {
-            Timber.d("navigate to auth methods fragment")
-            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToAuthMethodsFragment())
+    private val animatorListener by lazy {
+        object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                Timber.d("navigate to auth methods fragment")
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToAuthMethodsFragment())
+            }
         }
     }
 

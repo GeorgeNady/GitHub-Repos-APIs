@@ -15,5 +15,12 @@
     <string name="welcome_message">Join Github Repos Explorer</string>
     <string name="signup">Signup</string>
     <string name="sing_in">sing in</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="or">Or</string>
+    <string name="re_password">Re password</string>
 
 </resources>

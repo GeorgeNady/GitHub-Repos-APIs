@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.george.copticorphanstask.ui.auth.fragments.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_authMethodsFragment"
             app:destination="@id/authMethodsFragment"
@@ -20,6 +20,24 @@
         android:id="@+id/authMethodsFragment"
         android:name="com.george.copticorphanstask.ui.auth.fragments.AuthMethodsFragment"
         android:label="AuthMethodsFragment"
-        tools:layout="@layout/fragment_auth_methods" />
+        tools:layout="@layout/fragment_auth_methods">
+        <action
+            android:id="@+id/action_authMethodsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_authMethodsFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.george.copticorphanstask.ui.auth.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.george.copticorphanstask.ui.auth.fragments.SignupFragment"
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup" />
+
 
 </navigation>

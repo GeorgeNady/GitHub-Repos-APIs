@@ -64,7 +64,7 @@ data class Resource<T>(
                 Timber.d("$TAG >>> FAILURE $message")
             }
             Status.SUCCESS -> {
-                mSuccess(data!!)
+                data?.let { mSuccess(it) }
                 Timber.d("$TAG >>> SUCCESS $data")
             }
         }
