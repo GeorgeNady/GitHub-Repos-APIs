@@ -10,6 +10,7 @@ buildscript {
         swiperefreshlayout_version = '1.1.0'
         shimmer_version = '0.5.0'
         glide_version = "4.12.0"
+        lottie_version = '4.2.2'
 
         // lifecycle
         lifecycle_version = "2.5.1"
@@ -26,6 +27,8 @@ buildscript {
 
         // firebase
         firebase_bom_version = '30.3.2'
+        facebook_login_version = '12.3.0'
+        play_services_auth_version = '20.3.0'
 
         // Dagger hit
         dagger_hilt_version = '2.43.2'
@@ -42,13 +45,14 @@ buildscript {
                         "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
                         "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
                 ],
-                deaflut    : [
+                ui         : [
                         "androidx.core:core-ktx:$core_ktx_version",
                         "androidx.appcompat:appcompat:$appcompat_version",
                         "com.google.android.material:material:$material_version",
                         "androidx.constraintlayout:constraintlayout:$constraintlayout_version",
                         "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version",
                         "com.facebook.shimmer:shimmer:$shimmer_version",
+                        "com.airbnb.android:lottie:$lottie_version",
                 ],
                 // ktx support for ViewModels
                 ktx        : [
@@ -77,9 +81,14 @@ buildscript {
                         "com.squareup.okhttp3:okhttp:$okhttp3_version",
                         "com.squareup.okhttp3:logging-interceptor:$okhttp3_version",
                 ],
+
                 firebase   : [
                         'com.google.firebase:firebase-analytics',
+                        'com.google.firebase:firebase-auth-ktx',
                 ],
+                facebook   : "com.facebook.android:facebook-login:$facebook_login_version",
+                google_play_service : "com.google.android.gms:play-services-auth:$play_services_auth_version",
+
                 dagger_hilt: [
                         "com.google.dagger:hilt-android:$dagger_hilt_version",
                 ],

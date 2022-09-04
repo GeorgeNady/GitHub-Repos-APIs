@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Github Repos</string>
+
+    <!--Facebook-->
+    <string name="facebook_app_id">620208726303684</string>
+    <string name="fb_login_protocol_scheme">fb620208726303684</string>
+    <string name="facebook_client_token">5bd284e3ec895ee3529154811e3ce229</string>
+
+    <string name="login_with_facebook">login with Facebook</string>
+    <string name="login_with_gmail">Login with Gmail</string>
+    <string name="logout">Logout</string>
+    <string name="welcome_message">Join Github Repos Explorer</string>
+    <string name="signup">Signup</string>
+    <string name="sing_in">sing in</string>
+
 </resources>

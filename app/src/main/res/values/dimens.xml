@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mg_default">16dp</dimen>
+    <dimen name="mg_large">32dp</dimen>
+    <dimen name="mg_extra_large">64dp</dimen>
+</resources>

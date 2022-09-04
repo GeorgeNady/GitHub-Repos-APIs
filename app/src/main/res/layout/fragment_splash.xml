@@ -3,22 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="bAuthViewModel"
-            type="com.george.copticorphanstask.ui.auth.fragments.AuthViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/md_theme_primary"
         tools:context=".ui.auth.fragments.SplashFragment">
 
-        <!--TODO : gmail login button -->
-        <!--TODO : login with email button -->
-        <!--TODO : register button -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/mg_extra_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/md_theme_onPrimary"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/github"
+            app:lottie_speed="0.7" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
