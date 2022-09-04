@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1066542506479-h77nlq84rg8nkfu17g07gr0jcab7l4ia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.george.copticorphanstask",
+            "certificate_hash": "3aa7da6b2aadd6dc7de7706c80350463c87270c7"
+          }
+        },
+        {
           "client_id": "1066542506479-upaoj1bhmnr0uj0k97625sc21f32k48f.apps.googleusercontent.com",
           "client_type": 3
         }

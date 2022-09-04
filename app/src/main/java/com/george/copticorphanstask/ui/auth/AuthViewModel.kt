@@ -1,16 +1,12 @@
 package com.george.copticorphanstask.ui.auth
 
+import androidx.activity.result.ActivityResult
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.facebook.AccessToken
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
 import com.george.copticorphanstask.network.Resource
 import com.george.copticorphanstask.repository.AuthRepo
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -24,61 +20,44 @@ class AuthViewModel @Inject constructor(
     private val _user = MutableLiveData<Resource<FirebaseUser?>>()
     val user: LiveData<Resource<FirebaseUser?>> get() = _user
 
+    init {
+        checkLoggedInUser()
+    }
 
-    // TODO #1: login with facebook
-    // B ******************************************************************************** {FACEBOOK}
-    fun facebookLogin(fragment: Fragment) {
+    // B ************************************************************************* {Check for users}
+    // DONE
+    private fun checkLoggedInUser() {
         _user.value = Resource.loading()
-        with(repo) {
-            facebookLoginManager.apply {
-                logInWithReadPermissions(fragment, setOf("email", "public_profile"))
-                registerCallback(callbackManager, facebookCallback)
-            }
-        }
+        val currentUser = repo.auth.currentUser
+        _user.value =
+            if (currentUser != null) Resource.success(currentUser)
+            else Resource.error("no users found")
     }
 
-    private val facebookCallback by lazy {
-        object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-                Timber.i("facebookLogin success")
-                handleFacebookAccessToken(result.accessToken)
-            }
-
-            override fun onCancel() {
-                Timber.i("facebookLogin cancel")
-            }
-
-            override fun onError(error: FacebookException) {
-                Timber.d("facebookLogin error: ${error.message}")
-            }
-        }
+    // B ******************************************************************************** {FACEBOOK}
+    val facebookCallbackManager = repo.callbackManager
+    fun loginWithFacebook(fragment: Fragment) {
+        repo.activityResultHandlerForFacebookLogin(fragment)
     }
 
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Timber.d("handleFacebookAccessToken:$token")
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        repo.auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Timber.d("signInWithCredential:success")
-                    val user = repo.auth.currentUser
-                    _user.value = Resource.success(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Timber.w("signInWithCredential:failure", task.exception)
-                    _user.value = Resource.failed(task.exception?.localizedMessage ?: "")
-                }
-            }
+    // B *********************************************************************************** {GMAIL}
+    fun googleSignInIntent() = repo.googleSignInIntent()
+
+    fun loginWithGmail(activityResult: ActivityResult) {
+        Timber.i("activityResult.data: ${activityResult.data}")
+        Timber.i("activityResult.resultCode: ${activityResult.resultCode}")
+        _user.value = repo.activityResultHandlerForGoogleLogin(activityResult).value
     }
 
-    // TODO #1: login with gmail
+    // B ************************************************************************ {Email & Password}
 
-    // TODO #1: login with email and password
+    // B ******************************************************************************** {Register}
 
-    // TODO #1: register
-
-    // TODO #1: login out
-    fun logout() = repo.auth.signOut()
+    // B ********************************************************************************* {Log out}
+    // DONE
+    fun logout() {
+        Timber.i("Logging out")
+        repo.auth.signOut()
+    }
 
 }

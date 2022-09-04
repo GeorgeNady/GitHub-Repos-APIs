@@ -6,6 +6,9 @@
     <string name="fb_login_protocol_scheme">fb620208726303684</string>
     <string name="facebook_client_token">5bd284e3ec895ee3529154811e3ce229</string>
 
+    <!--Gmail-->
+    <string name="default_web_clint_id">1066542506479-upaoj1bhmnr0uj0k97625sc21f32k48f.apps.googleusercontent.com</string>
+
     <string name="login_with_facebook">login with Facebook</string>
     <string name="login_with_gmail">Login with Gmail</string>
     <string name="logout">Logout</string>

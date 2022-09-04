@@ -3,10 +3,12 @@ package com.george.copticorphanstask.util
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.annotation.RequiresApi
 import com.george.copticorphanstask.MyApplication.Companion.mApplication
 
 object InternetConnectionUtils {
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun hasInternetConnection(): Boolean {
         // we need to call the connectivity manager
         val connectivityManager = mApplication.getSystemService(

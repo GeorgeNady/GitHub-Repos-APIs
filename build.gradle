@@ -85,7 +85,7 @@ buildscript {
                 firebase   : [
                         'com.google.firebase:firebase-analytics',
                         'com.google.firebase:firebase-auth-ktx',
-                        'com.firebaseui:firebase-ui-auth:7.2.0',
+                        // 'com.firebaseui:firebase-ui-auth:7.2.0',
                 ],
                 facebook   : "com.facebook.android:facebook-login:$facebook_login_version",
                 google_play_service : "com.google.android.gms:play-services-auth:$play_services_auth_version",
