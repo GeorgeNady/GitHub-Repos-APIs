@@ -1,6 +1,7 @@
 package com.george.copticorphanstask.di
 
 import com.george.copticorphanstask.BuildConfig
+import com.george.copticorphanstask.network.GithubService
 import com.george.copticorphanstask.util.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -12,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -75,5 +77,9 @@ object NetworkModule {
         .client(okHttpClient)
         .build()
 
+    @Provides
+    @Singleton
+    fun provideGithubService(retrofit: Retrofit): GithubService =
+        retrofit.create(GithubService::class.java)
 
 }

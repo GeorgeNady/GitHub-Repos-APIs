@@ -1,5 +1,6 @@
 package com.george.copticorphanstask.network
 
+import com.george.copticorphanstask.network.model.responses.PublicRepoResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -12,6 +13,6 @@ interface GithubService {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
         @Header("Authorization") token: String
-    ): Response<Any>
+    ): Response<PublicRepoResponse>
 
 }

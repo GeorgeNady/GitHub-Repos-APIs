@@ -1,5 +1,7 @@
 package com.george.copticorphanstask.network
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.george.copticorphanstask.util.InternetConnectionUtils.hasInternetConnection
 import com.google.gson.Gson
 import retrofit2.Response
@@ -59,7 +61,7 @@ abstract class BaseDataSource {
     }
 
     // info : safe api call paging
-    suspend fun <T> safeApiCallPaging(pagingLogic:(T) -> Resource<T> ,apiCall: suspend () -> Response<T>): Resource<T> {
+    suspend fun <T> safeApiCallPaging(pagingLogic:(T) -> Resource<T>, apiCall: suspend () -> Response<T>): Resource<T> {
         try {
 
             if (hasInternetConnection()) {
@@ -68,6 +70,13 @@ abstract class BaseDataSource {
 
                 if (response.isSuccessful) {
 
+                    val headers = response.headers()
+                    val links = headers.filter {
+                        it.first == "Link"
+                    }
+                    Timber.i("links $links")
+                    // Timber.i("headers ${response.headers()}")
+                    // Timber.i("Link ${response.headers()}")
 
                     response.body()?.let { resultRes ->
                         return pagingLogic(resultRes)
