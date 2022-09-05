@@ -2,8 +2,8 @@ package com.george.copticorphanstask.ui.main
 
 import androidx.lifecycle.*
 import com.george.copticorphanstask.network.Resource
-import com.george.copticorphanstask.network.asDomainModels
-import com.george.copticorphanstask.network.model.responses.PublicRepoResponse
+import com.george.copticorphanstask.network.asDomainModel
+import com.george.copticorphanstask.network.model.remote_models.RepositoryRemote
 import com.george.copticorphanstask.repository.GithubRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,82 +15,82 @@ class GithubViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _page = 1
-    private val _perPage = 10
+    private var _perPage = 10
     private var _refreshPage = false
-    private var _homeFirstTime = true
-    private var _publicReposResponse: PublicRepoResponse? = null
-    private val _publicReposMutableLiveData = MutableLiveData<Resource<PublicRepoResponse>?>()
+    private var _firstTime = true
+    private var _usersReposResponse: MutableList<RepositoryRemote>? = null
+    private val _usersReposMutableLiveData = MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
 
     // info: list of clashes
-    val publicReposList = Transformations.map(_publicReposMutableLiveData) {
-        it?.data?.asDomainModels() ?: emptyList()
+    val publicReposList = Transformations.map(_usersReposMutableLiveData) {
+        it?.data?.map { repo -> repo.asDomainModel() } ?: mutableListOf()
     }
     // info: first time load the page to show shimmer effect
-    val shimmerShowEvent = Transformations.map(_publicReposMutableLiveData) {
-        it?.let { it.success.isLoading() && _homeFirstTime }
+    val shimmerShowEvent = Transformations.map(_usersReposMutableLiveData) {
+        it?.let { it.success.isLoading() && _firstTime }
     }
     // info: first time load the page  to show bottom progress bar
-    val progressShowEvent = Transformations.map(_publicReposMutableLiveData) {
-        it?.let { it.success.isLoading() && !_homeFirstTime }
+    val progressShowEvent = Transformations.map(_usersReposMutableLiveData) {
+        it?.let { it.success.isLoading() && !_firstTime }
     }
     // info: when error
-    val errorShowEvent = Transformations.map(_publicReposMutableLiveData) {
+    /*val errorShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.success?.isError()
-    }
+    }*/
     // info: when start refresh the page
-    val refreshSwipeEvent = Transformations.map(_publicReposMutableLiveData) {
+    val refreshSwipeEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && _refreshPage }
     }
 
-    init { getAllPublicGithubRepositories() }
+    init { getUserRepos() }
 
-    private fun getAllPublicGithubRepositories() = viewModelScope.launch {
-        _publicReposMutableLiveData.value = Resource.loading()
+    private fun getUserRepos() = viewModelScope.launch {
+        _usersReposMutableLiveData.value = Resource.loading()
         try {
-            _publicReposMutableLiveData.value = repo.getAllPublicGithubRepositories(_page,_perPage) { response ->
+            _usersReposMutableLiveData.value = repo.getUserRepositories(_page, _perPage) { response ->
                 _page++
-                if (_publicReposResponse == null) {
-                    _publicReposResponse = response
-                    _homeFirstTime = false
+                if (_usersReposResponse == null) {
+                    _usersReposResponse = response
+                    _firstTime = false
                     _refreshPage = false
                 } else {
-
-                    val oldArticles = _publicReposResponse?.repositories
-                    val newsArticles = response.repositories
-                    oldArticles?.addAll(newsArticles ?: emptyList())
+                    val oldArticles = _usersReposResponse
+                    oldArticles?.addAll(response)
                 }
-                Resource.success(_publicReposResponse ?: response)
+                Resource.success(_usersReposResponse ?: response)
             }
         } catch (e:Exception) {
-            _publicReposMutableLiveData.value = Resource.error(e.toString())
+            _usersReposMutableLiveData.value = Resource.error(e.toString())
         }
     }
 
     /**
      * rest all values again to call api starting from the first page
      */
-    fun onResetPublicRepos() {
+    fun onResetUserRepos() {
         _page = 1
-        _homeFirstTime = true
-        _publicReposResponse = null
+        _perPage = 10
+        _firstTime = true
         _refreshPage = true
-        _publicReposMutableLiveData.value = null
-        getAllPublicGithubRepositories()
+        _usersReposResponse = null
+        _usersReposMutableLiveData.value = null
+        getUserRepos()
     }
 
     /**
      * call api with the next page in case we not in the last page
      */
-    /*fun onLoadMorePublicRepos() {
-        if (isLastPageCalculator()) return
-        getAllPublicGithubRepositories()
-    }*/
+    fun onLoadMoreUserRepos() {
+        // if (isLastPageCalculator()) return
+        getUserRepos()
+    }
 
-    /*private fun isLastPageCalculator(): Boolean {
-        val meta = _publicReposMutableLiveData.value?.data?.repositories.
+    private fun isLastPageCalculator(): Boolean {
+        /*val meta = _publicReposMutableLiveData.value?.data?.repositories
         val lastPage = meta?.lastPage ?: 0
         val currentPage = meta?.currentPage ?: 0
-        return lastPage - currentPage < 1
-    }*/
+        return lastPage - currentPage < 1*/
+        return false
+    }
 
 }

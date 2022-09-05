@@ -71,12 +71,8 @@ abstract class BaseDataSource {
                 if (response.isSuccessful) {
 
                     val headers = response.headers()
-                    val links = headers.filter {
-                        it.first == "Link"
-                    }
+                    val links = headers["Link"]
                     Timber.i("links $links")
-                    // Timber.i("headers ${response.headers()}")
-                    // Timber.i("Link ${response.headers()}")
 
                     response.body()?.let { resultRes ->
                         return pagingLogic(resultRes)

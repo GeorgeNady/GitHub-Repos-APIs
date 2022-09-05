@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bGithubViewModel"
+            type="com.george.copticorphanstask.ui.main.GithubViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        setOnStartSwipeRefresh="@{bGithubViewModel.refreshSwipeEvent}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        tools:context=".ui.main.fragments.MainFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- info: shimmer effect -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
+                setVisiblyWithBoolean="@{bGithubViewModel.shimmerShowEvent}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <include layout="@layout/item_repos_shimmer_content" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <!-- info: repositories list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRepositories"
+                setVisiblyWithBoolean="@{!bGithubViewModel.shimmerShowEvent}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/mg_large"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_github_repo" />
+
+            <!-- info: load more progress -->
+            <ProgressBar
+                android:id="@+id/progressPagination"
+                setVisiblyWithBoolean="@{bGithubViewModel.progressShowEvent}"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="@dimen/mg_small"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

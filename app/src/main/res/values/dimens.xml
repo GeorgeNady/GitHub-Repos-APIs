@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="mg_small">8dp</dimen>
     <dimen name="mg_default">16dp</dimen>
     <dimen name="mg_large">32dp</dimen>
     <dimen name="mg_extra_large">64dp</dimen>
+
+    <dimen name="p_small">6dp</dimen>
+
     <dimen name="text_input_edit_text_height">45dp</dimen>
+    <dimen name="large_elevation">15dp</dimen>
+    <dimen name="avatar_size">60dp</dimen>
+    <dimen name="ic_small_size">15dp</dimen>
 </resources>

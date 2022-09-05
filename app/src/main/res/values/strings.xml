@@ -15,12 +15,24 @@
     <string name="welcome_message">Join Github Repos Explorer</string>
     <string name="signup">Signup</string>
     <string name="sing_in">sing in</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
     <string name="sign_in">Sign in</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="or">Or</string>
     <string name="re_password">Re password</string>
+    <string name="privacy_state">Privacy state</string>
+    <string name="icon">icon</string>
+    <string name="github_background">github background</string>
+
+    <string name="repo_name_format">Repo name: %s</string>
+    <string name="repo_description_format">Description: %s</string>
+    <string name="repo_default_branch_format">Default branch: %s</string>
+    <string name="repo_language_format">Language: %s</string>
+
+    <string name="watcher_count_format">%s Watchers</string>
+    <string name="forks_count_format">%s Forks</string>
+    <string name="stars_count_format">%s Stars</string>
 
 </resources>

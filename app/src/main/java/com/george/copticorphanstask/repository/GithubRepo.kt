@@ -4,6 +4,7 @@ import com.george.copticorphanstask.BuildConfig
 import com.george.copticorphanstask.network.BaseDataSource
 import com.george.copticorphanstask.network.GithubService
 import com.george.copticorphanstask.network.Resource
+import com.george.copticorphanstask.network.model.remote_models.RepositoryRemote
 import com.george.copticorphanstask.network.model.responses.PublicRepoResponse
 import javax.inject.Inject
 
@@ -15,9 +16,9 @@ class GithubRepo @Inject constructor(
         private const val token = BuildConfig.GITHUB_API_TOKEN
     }
 
-    suspend fun getAllPublicGithubRepositories(
-        page: Int, perPage: Int, pagingLogic: (PublicRepoResponse) -> Resource<PublicRepoResponse>
-    ) = safeApiCallPaging(pagingLogic) { githubService.getAllPublicGithubRepositories(page, perPage, "Bearer $token") }
+    suspend fun getUserRepositories(
+        page: Int, perPage: Int, pagingLogic: (MutableList<RepositoryRemote>) -> Resource<MutableList<RepositoryRemote>>
+    ) = safeApiCallPaging(pagingLogic) { githubService.getUserRepositories(page, perPage, "Bearer $token") }
 
 
 }

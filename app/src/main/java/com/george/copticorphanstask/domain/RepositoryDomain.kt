@@ -11,9 +11,11 @@ data class RepositoryDomain(
     var owner: OwnerDomain,
     var htmlUrl: String,
     var description: String,
-    var fork: Boolean,
     var createdAt: String,
     var language: String,
     var visibility: String,
-    var default_branch: String
+    var default_branch: String,
+    var forks: Int,
+    var watchers: Int,
+    var stars: Int,
 ) : Parcelable

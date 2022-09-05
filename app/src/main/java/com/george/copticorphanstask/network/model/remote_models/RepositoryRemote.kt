@@ -1,7 +1,5 @@
 package com.george.copticorphanstask.network.model.remote_models
 
-import com.george.copticorphanstask.domain.OwnerDomain
-import com.george.copticorphanstask.domain.RepositoryDomain
 import com.google.gson.annotations.SerializedName
 
 data class RepositoryRemote(
@@ -11,18 +9,11 @@ data class RepositoryRemote(
     var owner: OwnerRemote,
     @SerializedName("html_url") var htmlUrl: String,
     var description: String,
-    var fork: Boolean,
     @SerializedName("created_at") var createdAt: String,
     var language: String,
     var visibility: String,
-    @SerializedName("default_branch") var default_branch: String
-)
-
-data class OwnerRemote(
-    var id: Int,
-    @SerializedName("node_id") var nodeId: String,
-    @SerializedName("avatar_url") var avatarUrl: String,
-    var url: String,
-    @SerializedName("html_url") var htmlUrl: String,
-    var type: String,
+    @SerializedName("default_branch") var default_branch: String,
+    @SerializedName("forks_count") var forks: Int,
+    @SerializedName("watchers_count") var watchers: Int,
+    @SerializedName("stargazers_count") var stars: Int,
 )

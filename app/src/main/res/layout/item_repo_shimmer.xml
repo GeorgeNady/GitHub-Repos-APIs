@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Elevated"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/mg_default"
+    android:layout_marginTop="@dimen/mg_default"
+    app:cardCornerRadius="@dimen/mg_default"
+    app:cardElevation="@dimen/large_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_margin="@dimen/mg_default"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
+            app:strokeColor="@color/md_theme_outline"
+            app:strokeWidth="1dp"
+            android:background="@color/md_theme_onSurfaceVariant"/>
+
+        <TextView
+            android:id="@+id/tvOwnerName"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mg_default"
+            android:background="@drawable/shimmer_bg"
+            app:layout_constraintBottom_toTopOf="@id/tvCreatedAt"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="75dp"
+            android:background="@drawable/shimmer_bg"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mg_default"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/tvOwnerName" />
+
+        <ImageView
+            android:id="@+id/tvVisibility"
+            android:background="@drawable/shimmer_bg_circle"
+            android:layout_width="@dimen/ic_small_size"
+            android:layout_height="@dimen/ic_small_size"
+            android:layout_marginStart="@dimen/mg_default"
+            android:contentDescription="@string/privacy_state"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCreatedAt"
+            app:layout_constraintStart_toEndOf="@+id/tvCreatedAt"
+            app:layout_constraintTop_toTopOf="@+id/tvCreatedAt" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivShapeable"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/mg_default"
+            android:background="@color/md_theme_onSurfaceVariant"
+            app:layout_constraintDimensionRatio="16:6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent" />
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mg_default"
+            android:layout_marginStart="@dimen/mg_default"
+            android:background="@drawable/rounded_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivShapeable">
+
+            <ImageView
+                android:layout_width="@dimen/ic_small_size"
+                android:layout_height="@dimen/ic_small_size"
+                android:contentDescription="@string/icon"
+                android:background="@drawable/shimmer_bg_circle" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shimmer_bg"
+                android:layout_marginStart="@dimen/mg_small"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/mg_default"
+            android:layout_marginVertical="@dimen/mg_default"
+            android:background="@drawable/rounded_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/ivShapeable"
+            app:layout_constraintVertical_bias="0.505">
+
+            <ImageView
+                android:layout_width="@dimen/ic_small_size"
+                android:layout_height="@dimen/ic_small_size"
+                android:contentDescription="@string/icon"
+                android:background="@drawable/shimmer_bg_circle" />
+
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shimmer_bg"
+                android:layout_marginStart="@dimen/mg_small"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/mg_default"
+            android:layout_marginEnd="@dimen/mg_default"
+            android:background="@drawable/rounded_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/ivShapeable"
+            app:layout_constraintVertical_bias="0.505">
+
+            <ImageView
+                android:layout_width="@dimen/ic_small_size"
+                android:layout_height="@dimen/ic_small_size"
+                android:contentDescription="@string/icon"
+                android:background="@drawable/shimmer_bg_circle" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shimmer_bg"
+                android:layout_marginStart="@dimen/mg_small"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

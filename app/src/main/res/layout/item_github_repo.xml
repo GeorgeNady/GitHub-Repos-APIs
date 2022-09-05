@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bRepository"
+            type="com.george.copticorphanstask.domain.RepositoryDomain" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/mg_default"
+        android:layout_marginTop="@dimen/mg_default"
+        app:cardCornerRadius="@dimen/mg_default"
+        app:cardElevation="@dimen/large_elevation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageView"
+                setAvatar="@{bRepository.owner.avatarUrl}"
+                android:layout_width="@dimen/avatar_size"
+                android:layout_height="@dimen/avatar_size"
+                android:layout_margin="@dimen/mg_default"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
+                app:strokeColor="@color/md_theme_outline"
+                app:strokeWidth="1dp"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tvOwnerName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/mg_default"
+                android:text="@{bRepository.owner.name}"
+                android:textColor="@color/md_theme_onSecondaryContainer"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvCreatedAt"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintVertical_chainStyle="spread"
+                tools:text="George Nady" />
+
+            <TextView
+                android:id="@+id/tvCreatedAt"
+                setTimeStamp="@{bRepository.createdAt}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/mg_default"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/md_theme_surfaceTint"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/tvOwnerName"
+                tools:text="2 year ago" />
+
+            <ImageView
+                android:id="@+id/tvVisibility"
+                setVisibilityIcon="@{bRepository}"
+                android:layout_width="@dimen/ic_small_size"
+                android:layout_height="@dimen/ic_small_size"
+                android:layout_marginStart="@dimen/mg_default"
+                android:contentDescription="@string/privacy_state"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCreatedAt"
+                app:layout_constraintStart_toEndOf="@+id/tvCreatedAt"
+                app:layout_constraintTop_toTopOf="@+id/tvCreatedAt"
+                app:tint="@color/md_theme_surfaceTint"
+                tools:src="@drawable/ic_public" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivShapeable"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/mg_default"
+                android:contentDescription="@string/github_background"
+                android:foreground="#26FFFFFF"
+                android:scaleType="centerCrop"
+                android:src="@drawable/github_wallpaper"
+                app:layout_constraintDimensionRatio="16:6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:padding="@dimen/p_small"
+                app:layout_constraintBottom_toBottomOf="@+id/ivShapeable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ivShapeable"
+                app:layout_constraintTop_toTopOf="@+id/ivShapeable">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/repo_name_format(bRepository.name)}"
+                    android:textColor="@color/md_theme_onPrimary"
+                    tools:text="Repo name: Coptic Orphans Repo" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/repo_description_format(bRepository.description)}"
+                    android:textColor="@color/md_theme_onPrimary"
+                    tools:text="Description: This is some description about the repository" />
+
+                <TextView
+                    android:id="@+id/tvDefaultBranch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/repo_default_branch_format(bRepository.default_branch)}"
+                    android:textColor="@color/md_theme_onPrimary"
+                    tools:text="DefaultBranch: Auth_Branch" />
+
+                <TextView
+                    android:id="@+id/tvLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/repo_language_format(bRepository.language)}"
+                    android:textColor="@color/md_theme_onPrimary"
+                    tools:text="Language: Kotlin" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mg_default"
+                android:layout_marginStart="@dimen/mg_default"
+                android:background="@drawable/rounded_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivShapeable">
+
+                <ImageView
+                    android:id="@+id/ivWatches"
+                    android:layout_width="@dimen/ic_small_size"
+                    android:layout_height="@dimen/ic_small_size"
+                    android:contentDescription="@string/icon"
+                    app:tint="@color/md_theme_surfaceTint"
+                    tools:src="@drawable/ic_watch" />
+
+                <TextView
+                    android:id="@+id/tvWatchesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mg_small"
+                    android:lines="1"
+                    android:text="@{@string/watcher_count_format(String.valueOf(bRepository.watchers))}"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    tools:text="0 watchers" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mg_default"
+                android:layout_marginVertical="@dimen/mg_default"
+                android:background="@drawable/rounded_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/ivShapeable"
+                app:layout_constraintVertical_bias="0.505">
+
+                <ImageView
+                    android:id="@+id/ivForks"
+                    android:layout_width="@dimen/ic_small_size"
+                    android:layout_height="@dimen/ic_small_size"
+                    android:contentDescription="@string/icon"
+                    app:tint="@color/md_theme_surfaceTint"
+                    tools:src="@drawable/ic_fork" />
+
+                <TextView
+                    android:id="@+id/tvForks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mg_small"
+                    android:lines="1"
+                    android:text="@{@string/forks_count_format(String.valueOf(bRepository.forks))}"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    tools:text="0 forks" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/mg_default"
+                android:layout_marginEnd="@dimen/mg_default"
+                android:background="@drawable/rounded_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/ivShapeable"
+                app:layout_constraintVertical_bias="0.505">
+
+                <ImageView
+                    android:id="@+id/ivStars"
+                    android:layout_width="@dimen/ic_small_size"
+                    android:layout_height="@dimen/ic_small_size"
+                    android:contentDescription="@string/icon"
+                    app:tint="@color/md_theme_surfaceTint"
+                    tools:src="@drawable/ic_star" />
+
+                <TextView
+                    android:id="@+id/tvStars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mg_small"
+                    android:lines="1"
+                    android:text="@{@string/stars_count_format(String.valueOf(bRepository.stars))}"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    tools:text="0 Stars" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
