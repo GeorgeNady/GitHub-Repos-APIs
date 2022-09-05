@@ -44,8 +44,7 @@ class AuthMethodsFragment : BaseFragment() {
             with(authViewModel) {
 
                 btnGmail.setOnClickListener {
-                    val intent = googleSignInIntent()
-                    googleActivityResult.launch(intent)
+                    googleActivityResult.launch(googleSignInIntent)
                 }
 
                 btnFacebook.setOnClickListener {
@@ -63,6 +62,9 @@ class AuthMethodsFragment : BaseFragment() {
                 }
 
                 user.observe(viewLifecycleOwner, authObserver())
+                googleLogin.observe(viewLifecycleOwner, authObserver())
+                facebookLogin.observe(viewLifecycleOwner, authObserver())
+
             }
         }
     }

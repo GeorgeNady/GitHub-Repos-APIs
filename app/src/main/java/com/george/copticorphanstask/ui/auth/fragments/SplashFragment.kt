@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.george.copticorphanstask.base.BaseFragment
 import com.george.copticorphanstask.databinding.FragmentSplashBinding
+import com.george.copticorphanstask.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -15,6 +17,7 @@ import timber.log.Timber
 class SplashFragment : BaseFragment() {
 
     private val binding by lazy { FragmentSplashBinding.inflate(layoutInflater) }
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     private val animatorListener by lazy {
         object : Animator.AnimatorListener {
@@ -38,6 +41,7 @@ class SplashFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             lifecycleOwner = this@SplashFragment
+            authViewModel
             animationView.addAnimatorListener(animatorListener)
         }
     }

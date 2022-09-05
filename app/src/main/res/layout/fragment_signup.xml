@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/md_theme_onPrimary"
         tools:context=".ui.auth.fragments.SignupFragment">
 
 
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/mg_extra_large"
             android:text="@string/signup"
-            app:layout_constraintBottom_toTopOf="@+id/etPhoneOrEmailLayout"
+            app:layout_constraintBottom_toTopOf="@+id/etEmailLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +29,7 @@
             app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPhoneOrEmailLayout"
+            android:id="@+id/etEmailLayout"
             style="@style/MyTextInputLayoutStyle"
             android:layout_marginHorizontal="@dimen/mg_large"
             android:hint="@string/email"
@@ -39,7 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPhoneOrEmail"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_input_edit_text_height"
                 android:layout_marginTop="@dimen/mg_default"
@@ -60,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etPhoneOrEmailLayout"
+            app:layout_constraintTop_toBottomOf="@+id/etEmailLayout"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -74,7 +75,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/tvForgetPass"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPhoneOrEmail">
+                app:layout_constraintTop_toBottomOf="@+id/etEmail">
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +101,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/tvForgetPass"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPhoneOrEmail">
+                app:layout_constraintTop_toBottomOf="@+id/etEmail">
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
@@ -127,7 +128,7 @@
             android:layout_marginTop="@dimen/mg_default"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/btSignIn"
+            app:layout_constraintBottom_toTopOf="@+id/btnSignin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +155,7 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btSignIn"
+            android:id="@+id/btnSignin"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

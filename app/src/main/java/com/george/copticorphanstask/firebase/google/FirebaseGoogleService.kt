@@ -9,5 +9,5 @@ import com.google.firebase.auth.FirebaseUser
 interface FirebaseGoogleService {
     val googleSignInClient: GoogleSignInClient
     fun firebaseAuthWithGoogle(idToken: String): Resource<FirebaseUser?>
-    fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): LiveData<Resource<FirebaseUser?>>
+    fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): Resource<FirebaseUser?>
 }

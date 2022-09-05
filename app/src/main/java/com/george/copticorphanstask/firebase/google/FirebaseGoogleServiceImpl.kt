@@ -48,30 +48,27 @@ class FirebaseGoogleServiceImpl @Inject constructor(
      * ## Activity Result Handler
      * ## Google Login
      */
-    override fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): LiveData<Resource<FirebaseUser?>> {
-        val mutableLiveData = MutableLiveData<Resource<FirebaseUser?>>()
-        mutableLiveData.value = Resource.loading()
+    override fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): Resource<FirebaseUser?> {
+        var resource: Resource<FirebaseUser?> = Resource.loading()
 
         GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
             .addOnSuccessListener { account ->
                 Timber.d("firebaseAuthWithGoogle: Account ID ${account.id}")
                 Timber.d("firebaseAuthWithGoogle: Account ID Token ${account.idToken}")
                 account.idToken?.let { token ->
-                    mutableLiveData.value = firebaseAuthWithGoogle(token)
+                    resource = firebaseAuthWithGoogle(token)
                 }
             }
             .addOnFailureListener { e ->
                 Timber.w("Google sign in failed", e)
-                mutableLiveData.value =
-                    Resource.failed(e.localizedMessage ?: "Google sign in failed")
+                resource = Resource.failed(e.localizedMessage ?: "Google sign in failed")
             }
             .addOnCanceledListener {
                 Timber.w("Canceled")
-                mutableLiveData.value =
-                    Resource.error("Canceled")
+                resource = Resource.error("Canceled")
             }
 
-        return mutableLiveData
+        return resource
     }
 
 
