@@ -29,9 +29,11 @@
                 android:layout_width="@dimen/avatar_size"
                 android:layout_height="@dimen/avatar_size"
                 android:layout_margin="@dimen/mg_default"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
                 app:strokeColor="@color/md_theme_outline"
                 app:strokeWidth="1dp"
@@ -51,12 +53,13 @@
                 app:layout_constraintVertical_chainStyle="spread"
                 tools:text="George Nady" />
 
+            <!--setTimeStamp="@{bRepository.createdAt}"-->
             <TextView
                 android:id="@+id/tvCreatedAt"
-                setTimeStamp="@{bRepository.createdAt}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/mg_default"
+                android:text="@{bRepository.createdAt}"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/md_theme_surfaceTint"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
@@ -83,7 +86,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/mg_default"
                 android:contentDescription="@string/github_background"
-                android:foreground="#26FFFFFF"
+                android:tint="#26FFFFFF"
                 android:scaleType="centerCrop"
                 android:src="@drawable/github_wallpaper"
                 app:layout_constraintDimensionRatio="16:6"
@@ -94,15 +97,17 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent" />
 
             <LinearLayout
-                android:gravity="center_vertical"
+                android:id="@+id/linearLayout5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="@dimen/p_small"
-                app:layout_constraintBottom_toBottomOf="@+id/ivShapeable"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/ivShapeable"
-                app:layout_constraintTop_toTopOf="@+id/ivShapeable">
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -124,7 +129,7 @@
                     android:id="@+id/tvDefaultBranch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/repo_default_branch_format(bRepository.default_branch)}"
+                    android:text="@{@string/repo_default_branch_format(bRepository.defaultBranch)}"
                     android:textColor="@color/md_theme_onPrimary"
                     tools:text="DefaultBranch: Auth_Branch" />
 
@@ -159,8 +164,7 @@
                     android:layout_width="@dimen/ic_small_size"
                     android:layout_height="@dimen/ic_small_size"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/md_theme_surfaceTint"
-                    tools:src="@drawable/ic_watch" />
+                    android:src="@drawable/ic_watch" />
 
                 <TextView
                     android:id="@+id/tvWatchesCount"
@@ -187,7 +191,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/ivShapeable"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
                 app:layout_constraintVertical_bias="0.505">
 
                 <ImageView
@@ -195,8 +199,7 @@
                     android:layout_width="@dimen/ic_small_size"
                     android:layout_height="@dimen/ic_small_size"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/md_theme_surfaceTint"
-                    tools:src="@drawable/ic_fork" />
+                    android:src="@drawable/ic_fork" />
 
                 <TextView
                     android:id="@+id/tvForks"
@@ -231,8 +234,7 @@
                     android:layout_width="@dimen/ic_small_size"
                     android:layout_height="@dimen/ic_small_size"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/md_theme_surfaceTint"
-                    tools:src="@drawable/ic_star" />
+                    android:src="@drawable/ic_star" />
 
                 <TextView
                     android:id="@+id/tvStars"

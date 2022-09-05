@@ -61,7 +61,6 @@ class AuthMethodsFragment : BaseFragment() {
                         AuthMethodsFragmentDirections.actionAuthMethodsFragmentToLoginFragment())
                 }
 
-                user.observe(viewLifecycleOwner, authObserver())
                 googleLogin.observe(viewLifecycleOwner, authObserver())
                 facebookLogin.observe(viewLifecycleOwner, authObserver())
 

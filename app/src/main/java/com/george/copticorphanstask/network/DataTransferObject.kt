@@ -4,9 +4,8 @@ import com.george.copticorphanstask.domain.OwnerDomain
 import com.george.copticorphanstask.domain.RepositoryDomain
 import com.george.copticorphanstask.network.model.remote_models.OwnerRemote
 import com.george.copticorphanstask.network.model.remote_models.RepositoryRemote
-import com.george.copticorphanstask.network.model.responses.PublicRepoResponse
 
-fun PublicRepoResponse.asDomainModels() = this.repositories.map {
+fun List<RepositoryRemote>.asDomainModels() = map {
     RepositoryDomain(
         id = it.id,
         name = it.name,
@@ -17,7 +16,7 @@ fun PublicRepoResponse.asDomainModels() = this.repositories.map {
         createdAt = it.createdAt,
         language = it.language,
         visibility = it.visibility,
-        default_branch = it.default_branch,
+        defaultBranch = it.defaultBranch,
         forks = it.forks,
         watchers = it.watchers,
         stars = it.stars,
@@ -34,7 +33,7 @@ fun RepositoryRemote.asDomainModel() = RepositoryDomain(
     createdAt = createdAt,
     language = language,
     visibility = visibility,
-    default_branch = default_branch,
+    defaultBranch = defaultBranch,
     forks = forks,
     watchers = watchers,
     stars = stars
@@ -43,9 +42,6 @@ fun RepositoryRemote.asDomainModel() = RepositoryDomain(
 fun OwnerRemote.asDomainModel() = OwnerDomain(
     id = id,
     name = name,
-    nodeId = nodeId,
     avatarUrl = avatarUrl,
-    url = url,
     htmlUrl = htmlUrl,
-    type = type,
 )

@@ -3,19 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/authMethodsFragment">
 
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.george.copticorphanstask.ui.auth.fragments.SplashFragment"
-        android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash">
-        <action
-            android:id="@+id/action_splashFragment_to_authMethodsFragment"
-            app:destination="@id/authMethodsFragment"
-            app:popUpTo="@id/auth_nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/authMethodsFragment"
         android:name="com.george.copticorphanstask.ui.auth.fragments.AuthMethodsFragment"

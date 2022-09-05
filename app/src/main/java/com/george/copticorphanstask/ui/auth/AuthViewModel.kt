@@ -20,31 +20,15 @@ class AuthViewModel @Inject constructor(
     private val repo: AuthRepo
 ) : ViewModel() {
 
-    private val _user = MutableLiveData<Resource<FirebaseUser?>>()
     private val _facebookLogin = MutableLiveData<Resource<FirebaseUser?>>()
     private val _googleLogin = MutableLiveData<Resource<FirebaseUser?>>()
     private val _loginMutableLiveData = MutableLiveData<Resource<FirebaseUser?>>()
     private val _signupMutableLiveData = MutableLiveData<Resource<FirebaseUser?>>()
 
-    val user: LiveData<Resource<FirebaseUser?>> get() = _user
     val googleLogin: LiveData<Resource<FirebaseUser?>> get() = _googleLogin
     val facebookLogin: LiveData<Resource<FirebaseUser?>> get() = _facebookLogin
     val loginLiveData: LiveData<Resource<FirebaseUser?>> get() = _loginMutableLiveData
     val signupLiveData: LiveData<Resource<FirebaseUser?>> get() = _signupMutableLiveData
-
-    init {
-        checkLoggedInUser()
-    }
-
-    // info ********************************************************************** {Check for users}
-    // DONE
-    private fun checkLoggedInUser() {
-        _user.value = Resource.loading()
-        val currentUser = repo.auth.currentUser
-        _user.value =
-            if (currentUser != null) Resource.success(currentUser)
-            else Resource.error("no users found")
-    }
 
     // info ***************************************************************************** {FACEBOOK}
     val facebookCallbackManager = repo.callbackManager

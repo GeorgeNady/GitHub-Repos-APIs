@@ -34,5 +34,6 @@
     <string name="watcher_count_format">%s Watchers</string>
     <string name="forks_count_format">%s Forks</string>
     <string name="stars_count_format">%s Stars</string>
+    <string name="no_repositories_yet">No Repositories yet</string>
 
 </resources>

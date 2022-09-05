@@ -10,23 +10,26 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.george.copticorphanstask"
         minSdk 21
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        renderscriptTargetApi 32
+        renderscriptTargetApi 31
         renderscriptSupportModeEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments += ["dagger.hilt.disableModulesHaveInstallInCheck": "true",]
+                arguments += ["dagger.hilt.disableModulesHaveInstallInCheck": "true",
+                              "room.schemaLocation"                         : "$projectDir/schemas".toString(),
+                              "room.incremental"                            : "true",
+                              "room.expandProjection"                       : "true"]
             }
         }
 
@@ -58,9 +61,11 @@ android {
 
 dependencies {
 
+    // implementation project(path: ':base')
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
 
     implementation liberaries.values()
+    implementation appLiberaries.values()
     kapt liberariesKapt.values()
 
     testImplementation testLiberaries

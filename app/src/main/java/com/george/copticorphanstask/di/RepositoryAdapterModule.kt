@@ -10,6 +10,10 @@ import dagger.hilt.android.components.FragmentComponent
 @InstallIn(FragmentComponent::class)
 object RepositoryAdapterModule {
 
+    /**
+     * we create a providers here
+     * to use it if we will inject some dependencies to the constructor of the adapter class
+     */
     @Provides
     fun provideRepositoryAdapter() = RepositoryAdapter()
 

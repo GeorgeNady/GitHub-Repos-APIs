@@ -10,8 +10,6 @@ class RecyclerViewScrollListener(
 ): RecyclerView.OnScrollListener() {
 
     private var isLoading = false
-    // never used
-    private var isLastPage = false
     private var isScrolling = false
 
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -29,8 +27,7 @@ class RecyclerViewScrollListener(
         val visibleItemCount = layoutManager.childCount
         val totalItemCount = layoutManager.itemCount
 
-        // never used
-        val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+        val isNotLoadingAndNotLastPage = !isLoading
         val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
         val isNotAtTheBeginning = firstVisibleItemPosition >= 0
         val isTotalMoreThanVisible = totalItemCount >= 10

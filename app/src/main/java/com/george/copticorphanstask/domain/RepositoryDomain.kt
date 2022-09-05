@@ -14,7 +14,7 @@ data class RepositoryDomain(
     var createdAt: String,
     var language: String,
     var visibility: String,
-    var default_branch: String,
+    var defaultBranch: String,
     var forks: Int,
     var watchers: Int,
     var stars: Int,

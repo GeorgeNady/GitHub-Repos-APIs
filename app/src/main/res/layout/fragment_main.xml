@@ -10,61 +10,86 @@
             type="com.george.copticorphanstask.ui.main.GithubViewModel" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        setOnStartSwipeRefresh="@{bGithubViewModel.refreshSwipeEvent}"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="true"
-        android:clipToPadding="true"
         tools:context=".ui.main.fragments.MainFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            setOnStartSwipeRefresh="@{bGithubViewModel.refreshSwipeEvent}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-            <!-- info: shimmer effect -->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer"
-                setVisiblyWithBoolean="@{bGithubViewModel.shimmerShowEvent}"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:layout_height="match_parent">
 
-                <include layout="@layout/item_repos_shimmer_content" />
+                <!-- info: empty text view -->
+                <TextView
+                    android:id="@+id/tvEmptyContent"
+                    setVisiblyWithBoolean="@{bGithubViewModel.errorShowEvent}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/mg_extra_large"
+                    android:gravity="center"
+                    android:text="@string/no_repositories_yet"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+                <!-- info: shimmer effect -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer"
+                    setVisiblyWithBoolean="@{bGithubViewModel.shimmerShowEvent}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    tools:visibility="visible">
 
-            <!-- info: repositories list -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRepositories"
-                setVisiblyWithBoolean="@{!bGithubViewModel.shimmerShowEvent}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/mg_large"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_github_repo" />
+                    <include layout="@layout/item_repos_shimmer_content" />
 
-            <!-- info: load more progress -->
-            <ProgressBar
-                android:id="@+id/progressPagination"
-                setVisiblyWithBoolean="@{bGithubViewModel.progressShowEvent}"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginBottom="@dimen/mg_small"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:visibility="visible" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- info: repositories list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRepositories"
+                    setVisiblyWithBoolean="@{!bGithubViewModel.shimmerShowEvent}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/mg_large"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_github_repo" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <!-- info: load more progress -->
+                <ProgressBar
+                    android:id="@+id/progressPagination"
+                    setVisiblyWithBoolean="@{bGithubViewModel.progressShowEvent}"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="@dimen/mg_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
+
+
 </layout>

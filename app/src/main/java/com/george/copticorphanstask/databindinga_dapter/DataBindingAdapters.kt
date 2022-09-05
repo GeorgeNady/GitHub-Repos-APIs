@@ -53,7 +53,7 @@ fun SwipeRefreshLayout.setOnStartSwipeRefresh(isRefreshing: Boolean?) {
     this.isRefreshing = isRefreshing ?: false
 }
 
-@BindingAdapter("setupRecyclerViewAdapter")
+/*@BindingAdapter("setupRecyclerViewAdapter")
 fun RecyclerView.setupRecyclerViewAdapter(adapter:  ListAdapter<*,*>) {
     this.adapter = adapter
-}
+}*/

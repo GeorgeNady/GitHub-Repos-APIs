@@ -2,11 +2,12 @@ package com.george.copticorphanstask.ui.main
 
 import androidx.lifecycle.*
 import com.george.copticorphanstask.network.Resource
-import com.george.copticorphanstask.network.asDomainModel
+import com.george.copticorphanstask.network.asDomainModels
 import com.george.copticorphanstask.network.model.remote_models.RepositoryRemote
 import com.george.copticorphanstask.repository.GithubRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,15 +16,18 @@ class GithubViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _page = 1
-    private var _perPage = 10
+    private val _perPage = 5
     private var _refreshPage = false
     private var _firstTime = true
     private var _usersReposResponse: MutableList<RepositoryRemote>? = null
     private val _usersReposMutableLiveData = MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
 
+    val usersReposMutableLiveData: LiveData<Resource<MutableList<RepositoryRemote>>?> = _usersReposMutableLiveData
+
     // info: list of clashes
-    val publicReposList = Transformations.map(_usersReposMutableLiveData) {
-        it?.data?.map { repo -> repo.asDomainModel() } ?: mutableListOf()
+    val userReposList = Transformations.map(_usersReposMutableLiveData) {
+        Timber.tag("GEORGE").i("ViewModel: list size >>> ${it?.data?.size}")
+        it?.data?.asDomainModels() ?: emptyList()
     }
     // info: first time load the page to show shimmer effect
     val shimmerShowEvent = Transformations.map(_usersReposMutableLiveData) {
@@ -34,31 +38,36 @@ class GithubViewModel @Inject constructor(
         it?.let { it.success.isLoading() && !_firstTime }
     }
     // info: when error
-    /*val errorShowEvent = Transformations.map(_usersReposMutableLiveData) {
+    val errorShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.success?.isError()
-    }*/
+    }
     // info: when start refresh the page
     val refreshSwipeEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && _refreshPage }
     }
 
-    init { getUserRepos() }
+    init {
+        getUserRepos()
+    }
 
     private fun getUserRepos() = viewModelScope.launch {
         _usersReposMutableLiveData.value = Resource.loading()
         try {
-            _usersReposMutableLiveData.value = repo.getUserRepositories(_page, _perPage) { response ->
+            val result = repo.getUserRepositories(_page, _perPage) { response ->
                 _page++
                 if (_usersReposResponse == null) {
                     _usersReposResponse = response
                     _firstTime = false
                     _refreshPage = false
                 } else {
-                    val oldArticles = _usersReposResponse
-                    oldArticles?.addAll(response)
+                    val oldList = _usersReposResponse
+                    oldList?.addAll(response ?: emptyList())
+                    Timber.tag("VIEWMODEL").i("new response >>> $_usersReposResponse")
                 }
                 Resource.success(_usersReposResponse ?: response)
             }
+            Timber.tag("VIEWMODEL").i("result $result")
+            _usersReposMutableLiveData.value = result
         } catch (e:Exception) {
             _usersReposMutableLiveData.value = Resource.error(e.toString())
         }
@@ -69,7 +78,6 @@ class GithubViewModel @Inject constructor(
      */
     fun onResetUserRepos() {
         _page = 1
-        _perPage = 10
         _firstTime = true
         _refreshPage = true
         _usersReposResponse = null
