@@ -40,23 +40,29 @@
         android:id="@+id/loginFragment"
         android:name="com.george.copticorphanstask.ui.auth.fragments.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment"
-            app:popUpTo="@id/authMethodsFragment"
-            app:popUpToInclusive="true" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/authMethodsFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.george.copticorphanstask.ui.auth.fragments.SignupFragment"
         android:label="SignupFragment"
-        tools:layout="@layout/fragment_signup" >
+        tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/authMethodsFragment"
-            app:popUpToInclusive="true" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/authMethodsFragment" />
     </fragment>
 
 

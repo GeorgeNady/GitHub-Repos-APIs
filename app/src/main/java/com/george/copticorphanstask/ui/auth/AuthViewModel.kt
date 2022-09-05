@@ -67,7 +67,7 @@ class AuthViewModel @Inject constructor(
     }
 
     // info ********************************************************************* {Email & Password}
-    private fun signupFormValid(email:String, password:String, rePassword: String): Boolean {
+    fun signupFormValid(email:String, password:String, rePassword: String): Boolean {
         if (email.isNotEmpty() && password.length >= 8 && password == rePassword) return true
         return false
     }
@@ -98,7 +98,7 @@ class AuthViewModel @Inject constructor(
 
 
     // info ******************************************************************************** {Login}
-    private fun loginFormValid(email:String, password:String): Boolean {
+    fun loginFormValid(email:String, password:String): Boolean {
         if (email.isNotEmpty() && password.length >= 8) return true
         return false
     }
