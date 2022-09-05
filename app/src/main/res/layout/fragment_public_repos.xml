@@ -6,23 +6,38 @@
     <data>
 
         <variable
-            name="bGithubViewModel"
-            type="com.george.copticorphanstask.ui.main.GithubViewModel" />
+            name="bPublicRepoViewModel"
+            type="com.george.copticorphanstask.ui.main.fragments.public_repo_frag.PublicReposViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.fragments.MainFragment">
+        android:background="@color/md_theme_onSecondary"
+        tools:context=".ui.main.fragments.public_repo_frag.PublicReposFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            app:liftOnScroll="true"
+            style="@style/MyAppBarLayout">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                app:title="@string/public_repositories"
+                style="@style/MyMaterialToolbar"
+                app:menu="@menu/public_repos_menu"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
-            setOnStartSwipeRefresh="@{bGithubViewModel.refreshSwipeEvent}"
+            setOnStartSwipeRefresh="@{bPublicRepoViewModel.refreshSwipeEvent}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -31,7 +46,7 @@
                 <!-- info: empty text view -->
                 <TextView
                     android:id="@+id/tvEmptyContent"
-                    setVisiblyWithBoolean="@{bGithubViewModel.errorShowEvent}"
+                    setVisiblyWithBoolean="@{bPublicRepoViewModel.errorShowEvent}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/mg_extra_large"
@@ -49,7 +64,7 @@
                 <!-- info: shimmer effect -->
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmer"
-                    setVisiblyWithBoolean="@{bGithubViewModel.shimmerShowEvent}"
+                    setVisiblyWithBoolean="@{bPublicRepoViewModel.shimmerShowEvent}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -62,7 +77,7 @@
                 <!-- info: repositories list -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvRepositories"
-                    setVisiblyWithBoolean="@{!bGithubViewModel.shimmerShowEvent}"
+                    setVisiblyWithBoolean="@{!bPublicRepoViewModel.shimmerShowEvent}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
@@ -75,7 +90,7 @@
                 <!-- info: load more progress -->
                 <ProgressBar
                     android:id="@+id/progressPagination"
-                    setVisiblyWithBoolean="@{bGithubViewModel.progressShowEvent}"
+                    setVisiblyWithBoolean="@{bPublicRepoViewModel.progressShowEvent}"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="@dimen/mg_small"
@@ -89,7 +104,18 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnMyRepos"
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/my_repository"
+            android:src="@drawable/ic_user"
+            android:layout_margin="@dimen/mg_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:useCompatPadding="true" />
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

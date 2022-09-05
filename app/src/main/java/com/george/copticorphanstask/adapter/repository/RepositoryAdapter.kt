@@ -3,10 +3,13 @@ package com.george.copticorphanstask.adapter.repository
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.george.copticorphanstask.adapter.repository.RepositoryViewHolder.Companion.from
+import com.george.copticorphanstask.base.fragments.MainBaseFragment
 import com.george.copticorphanstask.domain.RepositoryDomain
 import javax.inject.Inject
 
-class RepositoryAdapter: ListAdapter<RepositoryDomain, RepositoryViewHolder>(RepositoryComparator()) {
+class RepositoryAdapter @Inject constructor(
+    private val frag: MainBaseFragment<*>
+): ListAdapter<RepositoryDomain, RepositoryViewHolder>(RepositoryComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = from(parent)
 

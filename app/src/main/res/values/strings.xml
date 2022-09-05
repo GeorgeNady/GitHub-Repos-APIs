@@ -35,5 +35,9 @@
     <string name="forks_count_format">%s Forks</string>
     <string name="stars_count_format">%s Stars</string>
     <string name="no_repositories_yet">No Repositories yet</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="public_repositories">Public repositories</string>
+    <string name="my_repository">My Repository</string>
 
 </resources>

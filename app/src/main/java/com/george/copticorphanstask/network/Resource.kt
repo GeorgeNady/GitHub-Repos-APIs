@@ -5,7 +5,7 @@ import timber.log.Timber
 data class Resource<T>(
     val success: Status,
     val data: T? = null,
-    val message: String? = null
+    val message: String? = "null"
 ) {
 
     enum class Status {

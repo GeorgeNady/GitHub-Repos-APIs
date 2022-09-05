@@ -35,8 +35,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
-                app:strokeColor="@color/md_theme_outline"
-                app:strokeWidth="1dp"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
@@ -174,7 +172,7 @@
                     android:lines="1"
                     android:text="@{@string/watcher_count_format(String.valueOf(bRepository.watchers))}"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    tools:text="0 watchers" />
+                    tools:text="0 watches" />
 
             </LinearLayout>
 

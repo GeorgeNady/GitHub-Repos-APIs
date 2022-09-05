@@ -3,12 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/publicReposFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.george.copticorphanstask.ui.main.fragments.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        android:id="@+id/myReposFragment"
+        android:name="com.george.copticorphanstask.ui.main.fragments.main_frag.MyReposFragment"
+        android:label="My Repos"
+        tools:layout="@layout/fragment_my_repos"/>
+
+    <fragment
+        android:id="@+id/publicReposFragment"
+        android:name="com.george.copticorphanstask.ui.main.fragments.public_repo_frag.PublicReposFragment"
+        android:label="Public Repos"
+        tools:layout="@layout/fragment_public_repos" >
+        <action
+            android:id="@+id/action_publicReposFragment_to_mainFragment"
+            app:destination="@id/myReposFragment" />
+    </fragment>
 
 </navigation>

@@ -28,7 +28,7 @@
             app:lottie_colorFilter="@color/md_theme_onPrimary"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/github"
-            app:lottie_speed="0.7" />
+            app:lottie_speed="1.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

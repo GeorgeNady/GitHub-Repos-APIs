@@ -1,6 +1,8 @@
 package com.george.copticorphanstask.di
 
+import androidx.fragment.app.Fragment
 import com.george.copticorphanstask.adapter.repository.RepositoryAdapter
+import com.george.copticorphanstask.base.fragments.MainBaseFragment
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +17,8 @@ object RepositoryAdapterModule {
      * to use it if we will inject some dependencies to the constructor of the adapter class
      */
     @Provides
-    fun provideRepositoryAdapter() = RepositoryAdapter()
+    fun provideRepositoryAdapter(
+        fragment: Fragment
+    ) = RepositoryAdapter(fragment as MainBaseFragment<*>)
 
 }

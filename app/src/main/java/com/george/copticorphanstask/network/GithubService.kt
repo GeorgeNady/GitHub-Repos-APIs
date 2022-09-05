@@ -11,7 +11,6 @@ interface GithubService {
     @GET("repositories")
     suspend fun getPublicRepositories(
         @Query("since") since: Int,
-        @Header("Authorization") token: String
     ): Response<List<RepositoryRemote>>
 
     @GET("user/repos")

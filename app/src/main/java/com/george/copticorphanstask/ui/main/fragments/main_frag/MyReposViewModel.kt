@@ -1,4 +1,4 @@
-package com.george.copticorphanstask.ui.main
+package com.george.copticorphanstask.ui.main.fragments.main_frag
 
 import androidx.lifecycle.*
 import com.george.copticorphanstask.network.Resource
@@ -11,36 +11,42 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class GithubViewModel @Inject constructor(
+class MyReposViewModel @Inject constructor(
     private val repo: GithubRepo
 ) : ViewModel() {
 
     private var _page = 1
-    private val _perPage = 5
     private var _refreshPage = false
     private var _firstTime = true
     private var _usersReposResponse: MutableList<RepositoryRemote>? = null
-    private val _usersReposMutableLiveData = MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
+    private val _usersReposMutableLiveData =
+        MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
 
-    val usersReposMutableLiveData: LiveData<Resource<MutableList<RepositoryRemote>>?> = _usersReposMutableLiveData
+    // never used
+    val usersReposMutableLiveData: LiveData<Resource<MutableList<RepositoryRemote>>?> =
+        _usersReposMutableLiveData
 
     // info: list of clashes
     val userReposList = Transformations.map(_usersReposMutableLiveData) {
         Timber.tag("GEORGE").i("ViewModel: list size >>> ${it?.data?.size}")
         it?.data?.asDomainModels() ?: emptyList()
     }
+
     // info: first time load the page to show shimmer effect
     val shimmerShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && _firstTime }
     }
+
     // info: first time load the page  to show bottom progress bar
     val progressShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && !_firstTime }
     }
+
     // info: when error
     val errorShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.success?.isError()
     }
+
     // info: when start refresh the page
     val refreshSwipeEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && _refreshPage }
@@ -53,23 +59,25 @@ class GithubViewModel @Inject constructor(
     private fun getUserRepos() = viewModelScope.launch {
         _usersReposMutableLiveData.value = Resource.loading()
         try {
-            val result = repo.getUserRepositories(_page, _perPage) { response ->
+            val result = repo.getUserRepositories(_page) { response ->
                 _page++
                 if (_usersReposResponse == null) {
                     _usersReposResponse = response
                     _firstTime = false
                     _refreshPage = false
                 } else {
-                    val oldList = _usersReposResponse
-                    oldList?.addAll(response ?: emptyList())
-                    Timber.tag("VIEWMODEL").i("new response >>> $_usersReposResponse")
+                    _usersReposResponse?.addAll(response)
                 }
                 Resource.success(_usersReposResponse ?: response)
             }
-            Timber.tag("VIEWMODEL").i("result $result")
+            Timber.d("""
+                count: ${result.data?.size}, 
+                result: $result
+            """.trimIndent())
             _usersReposMutableLiveData.value = result
-        } catch (e:Exception) {
-            _usersReposMutableLiveData.value = Resource.error(e.toString())
+        } catch (e: Exception) {
+            Timber.e("$e")
+            _usersReposMutableLiveData.value = Resource.error("$e")
         }
     }
 
@@ -89,7 +97,7 @@ class GithubViewModel @Inject constructor(
      * call api with the next page in case we not in the last page
      */
     fun onLoadMoreUserRepos() {
-        // if (isLastPageCalculator()) return
+        if (isLastPageCalculator()) return
         getUserRepos()
     }
 

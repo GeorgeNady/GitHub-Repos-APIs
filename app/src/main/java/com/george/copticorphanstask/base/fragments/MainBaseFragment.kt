@@ -10,7 +10,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
+import java.lang.IllegalArgumentException
 
 abstract class MainBaseFragment<T : ViewDataBinding?> : Fragment() {
 
@@ -64,13 +67,34 @@ abstract class MainBaseFragment<T : ViewDataBinding?> : Fragment() {
     //Y/////////////////////////////////////////////////////////////////////////////////////////////
     //Y//////////////////////////////////////// {NAVIGATION} ///////////////////////////////////////
     //Y/////////////////////////////////////////////////////////////////////////////////////////////
-    inline fun <reified A : Activity> Activity.startActivity(
+    inline fun <reified A : Activity> startActivity(
         replace: Boolean? = true, millis: Long? = null
     ) {
         millis?.let { Thread.sleep(millis) }
-        startActivity(Intent(this, A::class.java))
-        replace?.let { finish() }
+        startActivity(Intent(requireActivity(), A::class.java))
+        replace?.let { requireActivity().finish() }
 
+    }
+
+    //Y/////////////////////////////////////////////////////////////////////////////////////////////
+    //Y/////////////////////////////////////// {MaterialToolbar} ///////////////////////////////////
+    //Y/////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * this function do the bellow actions
+     * * when press navigation button {back button / left arrow icon} => __popTpBackStack()__
+     * * when click on menu icon that will show always => __go to setting fragment__
+     */
+    fun MaterialToolbar.setupMaterialToolbar(hasMenu: Boolean = false, itemIds: IntArray? = null, menuLogic: ((IntArray) -> Boolean)? = null) {
+        setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+        if (hasMenu) {
+            setOnMenuItemClickListener {
+                menuLogic?.let { it1 ->
+                    itemIds?.let { it2 -> it1(it2) } ?: throw(IllegalArgumentException("itemIds must not null or empty!"))
+                } ?: throw(IllegalArgumentException("menuLogic() Must not be null"))
+            }
+        }
     }
 
 }
