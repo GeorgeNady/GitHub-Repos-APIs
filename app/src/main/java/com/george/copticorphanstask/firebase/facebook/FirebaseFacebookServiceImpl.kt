@@ -3,10 +3,7 @@ package com.george.copticorphanstask.firebase.facebook
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.george.copticorphanstask.network.Resource
@@ -81,5 +78,16 @@ class FirebaseFacebookServiceImpl @Inject constructor(
         return mutableLiveData
     }
 
-
+    fun disconnectFromFacebook() {
+        // already logged out
+        if (AccessToken.getCurrentAccessToken() == null) return
+        val graphRequest = GraphRequest(
+            AccessToken.getCurrentAccessToken(),
+            "/me/permissions/",
+            null,
+            HttpMethod.DELETE,
+            { loginManager.logOut() }
+        )
+        graphRequest.executeAsync()
+    }
 }

@@ -43,6 +43,10 @@ class PublicReposFragment : MainBaseFragment<FragmentPublicReposBinding>() {
                         startActivity<AuthActivity>()
                         true
                     }
+                    R.id.search -> {
+//                        PublicReposFragmentDirections.searchactin
+                        true
+                    }
                     else -> false
                 }
             }

@@ -1,6 +1,5 @@
 package com.george.copticorphanstask.ui.auth.fragments
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.george.copticorphanstask.base.BaseFragment
 import com.george.copticorphanstask.databinding.FragmentAuthMethodsBinding
@@ -53,17 +51,21 @@ class AuthMethodsFragment : BaseFragment() {
 
                 btnSignUp.setOnClickListener {
                     findNavController().navigate(
-                        AuthMethodsFragmentDirections.actionAuthMethodsFragmentToSignupFragment())
+                        AuthMethodsFragmentDirections.actionAuthMethodsFragmentToSignupFragment()
+                    )
                 }
 
                 btnLogin.setOnClickListener {
                     findNavController().navigate(
-                        AuthMethodsFragmentDirections.actionAuthMethodsFragmentToLoginFragment())
+                        AuthMethodsFragmentDirections.actionAuthMethodsFragmentToLoginFragment()
+                    )
                 }
 
-                googleLogin.observe(viewLifecycleOwner, authObserver())
-                facebookLogin.observe(viewLifecycleOwner, authObserver())
-
+                googleLogin.observe(viewLifecycleOwner) { it.authObserver() }
+                facebookLogin.observe(viewLifecycleOwner) { it.authObserver() }
+                /*successGoogleSignIn.observe(viewLifecycleOwner) {
+                    if (it) startActivity<MainActivity>()
+                }*/
             }
         }
     }
@@ -73,9 +75,12 @@ class AuthMethodsFragment : BaseFragment() {
         authViewModel.facebookCallbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun authObserver() = Observer<Resource<FirebaseUser?>> {
-        it.handler(
-            mLoading = {},
+
+    private fun Resource<FirebaseUser?>.authObserver() {
+        handler(
+            mLoading = {
+                // Toast.makeText(requireContext(), "loading...", Toast.LENGTH_SHORT).show()
+            },
             mError = { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             },
@@ -84,7 +89,9 @@ class AuthMethodsFragment : BaseFragment() {
             }
         ) { firebaseUser ->
             Timber.i("FirebaseUser >>>> ${firebaseUser?.email}")
-            if (firebaseUser != null) startActivity<MainActivity>(replace = true)
+            firebaseUser?.let {
+                if (it.email != null) startActivity<MainActivity>(replace = true)
+            }
         }
     }
 

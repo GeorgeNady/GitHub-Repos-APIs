@@ -24,12 +24,15 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imageView"
+                android:id="@+id/iv_avatar"
                 setAvatar="@{bRepository.owner.avatarUrl}"
                 android:layout_width="@dimen/avatar_size"
                 android:layout_height="@dimen/avatar_size"
                 android:layout_margin="@dimen/mg_default"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toTopOf="@+id/repoDetails"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,8 +49,8 @@
                 android:textColor="@color/md_theme_onSecondaryContainer"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/tvCreatedAt"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+                app:layout_constraintTop_toTopOf="@+id/iv_avatar"
                 app:layout_constraintVertical_chainStyle="spread"
                 tools:text="George Nady" />
 
@@ -60,8 +63,8 @@
                 android:text="@{bRepository.createdAt}"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/md_theme_surfaceTint"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+                app:layout_constraintStart_toEndOf="@+id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tvOwnerName"
                 tools:text="2 year ago" />
 
@@ -84,20 +87,24 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/mg_default"
                 android:contentDescription="@string/github_background"
-                android:tint="#26FFFFFF"
                 android:scaleType="centerCrop"
                 android:src="@drawable/github_wallpaper"
+                android:tint="#26FFFFFF"
                 app:layout_constraintDimensionRatio="16:6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/iv_avatar"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent" />
 
+
             <LinearLayout
-                android:id="@+id/linearLayout5"
+                android:id="@+id/repoDetails"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="@dimen/p_small"
@@ -105,7 +112,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/ivShapeable"
-                app:layout_constraintTop_toBottomOf="@+id/imageView">
+                app:layout_constraintTop_toBottomOf="@+id/iv_avatar">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -189,7 +196,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/repoDetails"
                 app:layout_constraintVertical_bias="0.505">
 
                 <ImageView

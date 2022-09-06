@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         app:layoutDescription="@xml/fragment_auth_methods_xml_constraintlayout_scene"
-        app:showPaths="true"
         tools:context=".ui.auth.fragments.SplashFragment">
 
         <com.google.android.material.imageview.ShapeableImageView

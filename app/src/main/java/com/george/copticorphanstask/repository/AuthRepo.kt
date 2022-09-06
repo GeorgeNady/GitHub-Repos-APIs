@@ -28,36 +28,6 @@ class AuthRepo @Inject constructor(
     fun activityResultHandlerForFacebookLogin(fragment: Fragment) =
         facebookService.registerCallBack(fragment)
 
-    ///////////////////////////////////////////////////////////////////////////////////////// SIGNUP
-    fun createAccountWithEmailAndPassword(email: String, password: String): Resource<AuthResult> {
-        var resource: Resource<AuthResult> = Resource.loading()
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                resource = Resource.success(it)
-            }
-            .addOnFailureListener {
-                resource = Resource.failed(it.message ?: "failure")
-            }
-            .addOnCanceledListener {
-                resource = Resource.error("canceled")
-            }
-        return resource
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////// SING_IN
-    fun signInWithEmailANdPassword(email: String, password: String): Resource<AuthResult> {
-        var resource: Resource<AuthResult> = Resource.loading()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                resource = Resource.success(it)
-            }
-            .addOnFailureListener {
-                resource = Resource.failed(it.message ?: "failure")
-            }
-            .addOnCanceledListener {
-                resource = Resource.error("canceled")
-            }
-        return resource
-    }
+    // fun logoutFromFacebook() = facebookService.disconnectFromFacebook()
 
 }

@@ -8,6 +8,7 @@ import com.george.copticorphanstask.domain.RepositoryDomain
 import javax.inject.Inject
 
 class RepositoryAdapter @Inject constructor(
+    // Injected with dagger hilt if necessary
     private val frag: MainBaseFragment<*>
 ): ListAdapter<RepositoryDomain, RepositoryViewHolder>(RepositoryComparator()) {
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
         motion:autoTransition="animateToEnd"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1200"
+        motion:duration="1400"
         motion:motionInterpolator="easeInOut"
         motion:staggered="0.6">
-        <KeyFrameSet>
-
-        </KeyFrameSet>
+       <KeyFrameSet>
+       </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
@@ -70,7 +70,25 @@
             motion:layout_constraintTop_toBottomOf="@+id/etEmailLayout"
             motion:transitionEasing="standard" />
         <Constraint
-            android:id="@+id/btnSignin"
+            android:id="@+id/etRePasswordLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mg_large"
+            android:layout_marginTop="@dimen/mg_default"
+            android:layout_marginEnd="@dimen/mg_large"
+            android:alpha="0"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:translationX="-100dp"
+            android:translationY="-50dp"
+            motion:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias="0.5"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
+            motion:transitionEasing="standard" />
+        <Constraint
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mg_large"
@@ -106,7 +124,7 @@
             motion:layout_constraintTop_toBottomOf="@+id/btnSignin"
             motion:transitionEasing="standard" />
         <Constraint
-            android:id="@+id/btnSignUp"
+            android:id="@+id/btnSignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mg_large"
@@ -127,6 +145,5 @@
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-
     </ConstraintSet>
 </MotionScene>

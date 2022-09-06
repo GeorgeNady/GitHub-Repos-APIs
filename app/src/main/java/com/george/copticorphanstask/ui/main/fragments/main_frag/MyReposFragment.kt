@@ -24,7 +24,7 @@ class MyReposFragment : MainBaseFragment<FragmentMyReposBinding>() {
 
     override fun FragmentMyReposBinding.initialization() {
         lifecycleOwner = this@MyReposFragment
-        bGithubViewModel = myReposViewModel
+        bMyReposViewModel = myReposViewModel
         setupRecyclerView()
 
     }

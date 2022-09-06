@@ -15,6 +15,8 @@
         <!--<item name="navigationIcon">@drawable/ic_arrow_left</item>-->
         <!--<item name="menu">@menu/menu_setting</item>--> <!-- put it manually if needed -->
         <item name="titleCentered">true</item>
+        <item name="navigationIconTint">@color/md_theme_onPrimary</item>
+        <item name="titleTextColor">@color/md_theme_onPrimary</item>
         <item name="titleTextAppearance">@style/TextAppearance.Material3.TitleMedium</item>
 
     </style>

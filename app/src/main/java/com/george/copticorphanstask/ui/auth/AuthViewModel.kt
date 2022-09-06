@@ -2,10 +2,7 @@ package com.george.copticorphanstask.ui.auth
 
 import androidx.activity.result.ActivityResult
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.george.copticorphanstask.network.Resource
 import com.george.copticorphanstask.repository.AuthRepo
 import com.google.firebase.auth.FirebaseAuth
