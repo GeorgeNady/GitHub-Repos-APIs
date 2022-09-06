@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.george.copticorphanstask.base.BaseFragment
 import com.george.copticorphanstask.databinding.FragmentAuthMethodsBinding
+import com.george.copticorphanstask.firebase.google.FirebaseGoogleService
 import com.george.copticorphanstask.network.Resource
 import com.george.copticorphanstask.ui.auth.AuthViewModel
 import com.george.copticorphanstask.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
@@ -26,7 +29,7 @@ class AuthMethodsFragment : BaseFragment() {
     private val authViewModel by activityViewModels<AuthViewModel>()
 
     private val googleActivityResult = registerForActivityResult(StartActivityForResult()) {
-        it?.let { authViewModel.loginWithGmail(it) }
+        it?.let { authViewModel.loginWithGmail(it).observe(viewLifecycleOwner, googleLoginObserver()) }
     }
 
     override fun onCreateView(
@@ -61,8 +64,8 @@ class AuthMethodsFragment : BaseFragment() {
                     )
                 }
 
-                googleLogin.observe(viewLifecycleOwner) { it.authObserver() }
-                facebookLogin.observe(viewLifecycleOwner) { it.authObserver() }
+                // googleLogin.observe(viewLifecycleOwner) { it.authObserver() }
+                facebookLogin.observe(viewLifecycleOwner, facebookLoginObserver())
                 /*successGoogleSignIn.observe(viewLifecycleOwner) {
                     if (it) startActivity<MainActivity>()
                 }*/
@@ -76,21 +79,31 @@ class AuthMethodsFragment : BaseFragment() {
     }
 
 
-    private fun Resource<FirebaseUser?>.authObserver() {
-        handler(
-            mLoading = {
-                // Toast.makeText(requireContext(), "loading...", Toast.LENGTH_SHORT).show()
-            },
-            mError = { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            },
-            mFailed = { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    private fun googleLoginObserver() = Observer<Resource<FirebaseUser>> { resources ->
+        resources?.let {
+            resources.handler {
+                startActivity<MainActivity>(replace = true)
             }
-        ) { firebaseUser ->
-            Timber.i("FirebaseUser >>>> ${firebaseUser?.email}")
-            firebaseUser?.let {
-                if (it.email != null) startActivity<MainActivity>(replace = true)
+        }
+    }
+
+    private fun facebookLoginObserver() = Observer<Resource<FirebaseUser?>> {
+        it?.let {
+            it.handler(
+                mLoading = {
+                    Toast.makeText(requireContext(), "facebook logging...", Toast.LENGTH_SHORT).show()
+                },
+                mError = { message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                },
+                mFailed = { message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            ) { firebaseUser ->
+                Timber.i("FirebaseUser >>>> ${firebaseUser?.email}")
+                firebaseUser?.let {
+                    if (it.email != null) startActivity<MainActivity>(replace = true)
+                }
             }
         }
     }

@@ -13,15 +13,13 @@ import javax.inject.Inject
 
 class AuthRepo @Inject constructor(
     val auth: FirebaseAuth,
-    private val googleService: FirebaseGoogleService,
+    val googleService: FirebaseGoogleService,
     private val facebookService: FirebaseFacebookService,
     val callbackManager: CallbackManager
 ) : BaseDataSource() {
 
     ///////////////////////////////////////////////////////////////////////////////////////// GOOGLE
-    val googleSignInIntent = googleService.googleSignInClient.signInIntent
-
-    fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult) =
+    suspend fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult) =
         googleService.activityResultHandlerForGoogleLogin(activityResult)
 
     /////////////////////////////////////////////////////////////////////////////////////// FACEBOOK

@@ -3,10 +3,12 @@ package com.george.copticorphanstask.ui.auth
 import androidx.activity.result.ActivityResult
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import com.george.copticorphanstask.firebase.google.FirebaseGoogleService
 import com.george.copticorphanstask.network.Resource
 import com.george.copticorphanstask.repository.AuthRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -34,18 +36,16 @@ class AuthViewModel @Inject constructor(
     }
 
     // info ******************************************************************************** {GMAIL}
-    val googleSignInIntent = repo.googleSignInIntent
-    fun loginWithGmail(activityResult: ActivityResult) = viewModelScope.launch {
-        _googleLogin.value = Resource.loading()
-        Timber.i("activityResult.data: ${activityResult.data}")
-        Timber.i("activityResult.resultCode: ${activityResult.resultCode}")
-        try {
-            _googleLogin.value = repo.activityResultHandlerForGoogleLogin(activityResult)
-        } catch (e: Exception) {
-            _googleLogin.value = Resource.failed(e.localizedMessage ?: "")
+    val googleSignInIntent = repo.googleService.googleSignInClient.signInIntent
+    fun loginWithGmail(activityResult: ActivityResult) : LiveData<Resource<FirebaseUser>> {
+        val mutableLiveData =  MutableLiveData<Resource<FirebaseUser>>()
+        viewModelScope.launch {
+            Timber.i("GOOGLE_LOGIN >>> #1_1")
+            mutableLiveData.value = repo.activityResultHandlerForGoogleLogin(activityResult).value
         }
-
+        return mutableLiveData
     }
+
 
     // info ********************************************************************* {Email & Password}
     fun signupFormValid(email:String, password:String, rePassword: String): Boolean {

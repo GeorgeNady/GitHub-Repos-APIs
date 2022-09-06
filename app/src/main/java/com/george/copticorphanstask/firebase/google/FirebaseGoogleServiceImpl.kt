@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.george.copticorphanstask.network.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -21,26 +20,31 @@ class FirebaseGoogleServiceImpl @Inject constructor(
     /**
      * ## Firebase auth with [Google]
      */
-    override fun firebaseAuthWithGoogle(idToken: String): Resource<FirebaseUser?> {
-        var resource: Resource<FirebaseUser?> = Resource.loading()
-
+    override fun firebaseAuthWithGoogle(idToken: String): LiveData<Resource<FirebaseUser>> {
+        val resource = MutableLiveData<Resource<FirebaseUser>>()
+        resource.value = Resource.loading()
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-
+        Timber.i("GOOGLE_LOGIN >>> #3_1")
         auth.signInWithCredential(credential)
             .addOnSuccessListener {
-                Timber.d("signInWithCredential:success")
+                Timber.i("GOOGLE_LOGIN >>> #3_2")
                 val user = auth.currentUser
-                resource = Resource.success(user)
+                resource.value =
+                    if (user != null) Resource.success(user)
+                    else Resource.error("User Not Found")
+
             }
             .addOnFailureListener { exception ->
+                Timber.i("GOOGLE_LOGIN >>> #3_3")
                 Timber.w("signInWithCredential:failure $exception")
-                resource = Resource.failed(exception.localizedMessage ?: "")
+                resource.value = Resource.failed(exception.localizedMessage ?: "")
             }
             .addOnCanceledListener {
+                Timber.i("GOOGLE_LOGIN >>> #3_4")
                 Timber.w("signInWithCredential:canceled")
-                resource = Resource.error("Canceled")
+                resource.value = Resource.error("Canceled")
             }
-
+        Timber.i("GOOGLE_LOGIN >>> #3_5")
         return resource
     }
 
@@ -48,27 +52,36 @@ class FirebaseGoogleServiceImpl @Inject constructor(
      * ## Activity Result Handler
      * ## Google Login
      */
-    override fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): Resource<FirebaseUser?> {
-        var resource: Resource<FirebaseUser?> = Resource.loading()
-
-        GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
-            .addOnSuccessListener { account ->
-                Timber.d("firebaseAuthWithGoogle: Account ID ${account.id}")
-                Timber.d("firebaseAuthWithGoogle: Account ID Token ${account.idToken}")
-                account.idToken?.let { token ->
-                    resource = firebaseAuthWithGoogle(token)
+    override suspend fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult): LiveData<Resource<FirebaseUser>> {
+        val mutableLiveData = MutableLiveData<Resource<FirebaseUser>>()
+        mutableLiveData.value = Resource.loading()
+        Timber.i("GOOGLE_LOGIN >>> #2_1")
+        try {
+            GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
+                .addOnSuccessListener { account ->
+                    account.idToken?.let { token ->
+                        Timber.i("GOOGLE_LOGIN >>> #2_2")
+                        mutableLiveData.value = firebaseAuthWithGoogle(token).value
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                Timber.w("Google sign in failed", e)
-                resource = Resource.failed(e.localizedMessage ?: "Google sign in failed")
-            }
-            .addOnCanceledListener {
-                Timber.w("Canceled")
-                resource = Resource.error("Canceled")
-            }
+                .addOnFailureListener { e ->
+                    Timber.i("GOOGLE_LOGIN >>> #2_3")
+                    Timber.w("Google sign in failed", e)
+                    mutableLiveData.value =
+                        Resource.failed(e.localizedMessage ?: "Google sign in failed")
+                }
+                .addOnCanceledListener {
+                    Timber.i("GOOGLE_LOGIN >>> #2_4")
+                    Timber.w("Canceled")
+                    mutableLiveData.value = Resource.error("Canceled")
+                }
+        } catch (e: Exception) {
+            Timber.e("$e")
+            mutableLiveData.value = Resource.error("Error $e")
+        }
 
-        return resource
+        Timber.i("GOOGLE_LOGIN >>> #2_5")
+        return mutableLiveData
     }
 
 
