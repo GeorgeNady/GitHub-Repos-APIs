@@ -103,7 +103,12 @@ class PublicReposViewModel @Inject constructor(
         getPublicRepos()
     }
 
-    private fun isLastPageCalculator() = getSince()!=null
+    private fun isLastPageCalculator(): Boolean {
+        val link = _publicReposMutableLiveData.value!!.message ?: ""
+        val regex = Regex("since=[0-9]\\w+")
+        val notInTheLastPage = link.contains(regex)
+        return !notInTheLastPage
+    }
 
     /**
      * ## this regex used to extract the next since parameter from the header

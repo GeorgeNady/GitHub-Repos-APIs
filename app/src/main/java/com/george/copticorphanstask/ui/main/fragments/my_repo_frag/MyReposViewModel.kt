@@ -19,12 +19,7 @@ class MyReposViewModel @Inject constructor(
     private var _refreshPage = false
     private var _firstTime = true
     private var _usersReposResponse: MutableList<RepositoryRemote>? = null
-    private val _usersReposMutableLiveData =
-        MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
-
-    // never used
-    val usersReposMutableLiveData: LiveData<Resource<MutableList<RepositoryRemote>>?> =
-        _usersReposMutableLiveData
+    private val _usersReposMutableLiveData = MutableLiveData<Resource<MutableList<RepositoryRemote>>?>()
 
     // info: list of user repos
     val userReposList = Transformations.map(_usersReposMutableLiveData) {
