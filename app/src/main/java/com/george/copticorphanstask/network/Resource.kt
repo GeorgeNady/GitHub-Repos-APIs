@@ -24,7 +24,7 @@ data class Resource<T>(
 
         private const val TAG = "Resource"
 
-        fun <T> success(data: T) = Resource(Status.SUCCESS, data, null)
+        fun <T> success(data: T, message: String? = null) = Resource(Status.SUCCESS, data, message)
 
         fun <T> error(message: String, data: T? = null) = Resource(Status.ERROR, data, message)
 

@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.george.copticorphanstask.util.InternetConnectionUtils.hasInternetConnection
 import com.google.gson.Gson
+import okhttp3.Headers
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -30,11 +31,6 @@ abstract class BaseDataSource {
                         return Resource.success(body)
                     }
 
-                } else {
-
-                    val gson = Gson().fromJson(response.errorBody()?.charStream(), ErrorBody::class.java)
-                    return Resource.error(gson.message)
-
                 }
 
                 return Resource.failed("Something went wrong, try again")
@@ -48,13 +44,10 @@ abstract class BaseDataSource {
 
 
         } catch (t: Throwable) {
-
+            Timber.e("Conversion Error " + t.stackTraceToString())
             return when (t) {
                 is IOException -> Resource.failed("Network Failure")
-                else -> {
-                    Timber.e("Conversion Error " + t.stackTraceToString())
-                    Resource.failed("Conversion Error")
-                }
+                else -> Resource.failed("Conversion Error")
             }
 
         }
@@ -75,14 +68,9 @@ abstract class BaseDataSource {
                     Timber.i("links $links")
 
                     response.body()?.let { resultRes ->
-                        return pagingLogic(resultRes)
-                        // return Resource.success(cashedResponse ?: resultRes)
+                        val paging =  pagingLogic(resultRes)
+                        return Resource.success(paging.data!!, links)
                     }
-
-                } else {
-
-                    val gson = Gson().fromJson(response.errorBody()?.charStream(), ErrorBody::class.java)
-                    return Resource.error(gson.message)
 
                 }
 
@@ -97,13 +85,10 @@ abstract class BaseDataSource {
 
 
         } catch (t: Throwable) {
-
+            Timber.e("Conversion Error ${t.stackTraceToString()}")
             return when (t) {
                 is IOException -> Resource.failed("Network Failure")
-                else -> {
-                    Timber.e("Conversion Error ${t.stackTraceToString()}")
-                    Resource.failed("Conversion Error")
-                }
+                else -> Resource.failed("Conversion Error")
             }
 
         }

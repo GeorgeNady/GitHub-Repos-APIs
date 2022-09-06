@@ -11,6 +11,8 @@ import com.george.copticorphanstask.repository.GithubRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +22,7 @@ class PublicReposViewModel @Inject constructor(
 
     private var _firstTime = true
     private var _refreshPage = false
+    private var _since = 0
     private var _publicReposResponse: MutableList<RepositoryRemote>? = null
     private val _publicReposMutableLiveData = MutableLiveData<Resource<List<RepositoryRemote>>?>()
 
@@ -60,7 +63,7 @@ class PublicReposViewModel @Inject constructor(
     private fun getPublicRepos() = viewModelScope.launch {
         _publicReposMutableLiveData.value = Resource.loading()
         try {
-            val result = repo.getPublicRepositories { response ->
+            val result = repo.getPublicRepositories(_since) { response ->
                 if (_publicReposResponse == null) {
                     _publicReposResponse = response.toMutableList()
                     _firstTime = false
@@ -72,6 +75,7 @@ class PublicReposViewModel @Inject constructor(
                 Timber.d("new response >>> $_publicReposResponse")
                 Resource.success(_publicReposResponse ?: response)
             }
+            _since = getSince() ?: 0
             _publicReposMutableLiveData.postValue(result)
         } catch (e: Exception) {
             Timber.e("$e")
@@ -85,6 +89,7 @@ class PublicReposViewModel @Inject constructor(
     fun onResetPublicRepos() {
         _firstTime = true
         _refreshPage = true
+        _since = 0
         _publicReposResponse = null
         _publicReposMutableLiveData.value = null
         getPublicRepos()
@@ -98,12 +103,23 @@ class PublicReposViewModel @Inject constructor(
         getPublicRepos()
     }
 
-    private fun isLastPageCalculator(): Boolean {
-        /*val meta = _publicReposMutableLiveData.value?.data?.repositories
-        val lastPage = meta?.lastPage ?: 0
-        val currentPage = meta?.currentPage ?: 0
-        return lastPage - currentPage < 1*/
-        return false
+    private fun isLastPageCalculator() = getSince()!=null
+
+    /**
+     * ## this regex used to extract the next since parameter from the header
+     */
+    private fun getSince(): Int? {
+        val link = _publicReposMutableLiveData.value!!.message
+        link?.let {
+            var regex = Regex("since=[0-9]\\w+")
+            var matcher = regex.find(link)
+            regex = Regex("[0-9]\\w+")
+            matcher = regex.find(matcher?.value.toString())
+            if (matcher != null) {
+                return matcher.value.toInt()
+            }
+        }
+        return null
     }
 
 }
