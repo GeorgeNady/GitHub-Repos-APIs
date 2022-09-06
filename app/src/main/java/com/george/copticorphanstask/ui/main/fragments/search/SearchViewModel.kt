@@ -54,7 +54,9 @@ class SearchViewModel @Inject constructor(
     }
     val searchShimmerShowEvent = Transformations.map(_searchResponseMutableLiveData) { it?.let { it.success.isLoading() && _searchFirstTime } }
     val searchProgressShowEvent = Transformations.map(_searchResponseMutableLiveData) { it?.let { it.success.isLoading() && !_searchFirstTime } }
-    val searchErrorShowEvent = Transformations.map(_searchResponseMutableLiveData) { it?.success?.isError() }
+    val searchErrorShowEvent = Transformations.map(_searchResponseMutableLiveData) {
+        if (it?.success?.isError() == true) it.message else null
+    }
     val searchRefreshSwipeEvent = Transformations.map(_searchResponseMutableLiveData) { it?.let { it.success.isLoading() && _searchRefreshPage } }
     val searchEmptyTextShowEvent = Transformations.map(searchList) {
         _searchResponseMutableLiveData.value?.success?.isSuccess() == true && it?.isEmpty() ?: true

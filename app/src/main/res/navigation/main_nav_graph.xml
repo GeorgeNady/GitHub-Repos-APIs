@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myReposFragment"
-        android:name="com.george.copticorphanstask.ui.main.fragments.main_frag.MyReposFragment"
+        android:name="com.george.copticorphanstask.ui.main.fragments.my_repo_frag.MyReposFragment"
         android:label="My Repos"
         tools:layout="@layout/fragment_my_repos"/>
 

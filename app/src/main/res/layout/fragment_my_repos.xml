@@ -7,7 +7,7 @@
 
         <variable
             name="bMyReposViewModel"
-            type="com.george.copticorphanstask.ui.main.fragments.main_frag.MyReposViewModel" />
+            type="com.george.copticorphanstask.ui.main.fragments.my_repo_frag.MyReposViewModel" />
     </data>
 
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_theme_onSecondary"
-        tools:context=".ui.main.fragments.main_frag.MyReposFragment">
+        tools:context=".ui.main.fragments.my_repo_frag.MyReposFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -31,99 +31,81 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            setOnStartSwipeRefresh="@{bMyReposViewModel.refreshSwipeEvent}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <SearchView
-                android:id="@+id/search"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false">
 
-                <requestFocus />
-            </SearchView>
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
-                setOnStartSwipeRefresh="@{bMyReposViewModel.refreshSwipeEvent}"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+                android:layout_height="match_parent">
 
+                <!-- info: empty text view -->
+                <TextView
+                    android:id="@+id/tvEmptyContent"
+                    setVisiblyWithBoolean="@{bMyReposViewModel.searchEmptyTextShowEvent}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/mg_extra_large"
+                    android:gravity="center"
+                    android:text="@string/no_repositories_yet"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- info: shimmer effect -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer"
+                    setVisiblyWithBoolean="@{bMyReposViewModel.shimmerShowEvent}"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    tools:visibility="visible">
 
-                    <!-- info: empty text view -->
-                    <TextView
-                        android:id="@+id/tvEmptyContent"
-                        setVisiblyWithBoolean="@{bMyReposViewModel.errorShowEvent}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/mg_extra_large"
-                        android:gravity="center"
-                        android:text="@string/no_repositories_yet"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:visibility="visible" />
+                    <include layout="@layout/item_repos_shimmer_content" />
 
-                    <!-- info: shimmer effect -->
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmer"
-                        setVisiblyWithBoolean="@{bMyReposViewModel.shimmerShowEvent}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        tools:visibility="visible">
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-                        <include layout="@layout/item_repos_shimmer_content" />
+                <!-- info: repositories list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRepositories"
+                    setVisiblyWithBoolean="@{!bMyReposViewModel.shimmerShowEvent}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/mg_extra_large"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_github_repo" />
 
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                <!-- info: load more progress -->
+                <ProgressBar
+                    android:id="@+id/progressPagination"
+                    setVisiblyWithBoolean="@{bMyReposViewModel.progressShowEvent}"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="@dimen/mg_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible" />
 
-                    <!-- info: repositories list -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvRepositories"
-                        setVisiblyWithBoolean="@{!bMyReposViewModel.shimmerShowEvent}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:orientation="vertical"
-                        android:paddingBottom="@dimen/mg_extra_large"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_github_repo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- info: load more progress -->
-                    <ProgressBar
-                        android:id="@+id/progressPagination"
-                        setVisiblyWithBoolean="@{bMyReposViewModel.progressShowEvent}"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginBottom="@dimen/mg_small"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:visibility="visible" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </LinearLayout>
-
-
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

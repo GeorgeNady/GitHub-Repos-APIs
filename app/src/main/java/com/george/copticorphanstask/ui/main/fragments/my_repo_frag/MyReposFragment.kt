@@ -8,8 +8,10 @@ import com.george.copticorphanstask.adapter.repository.RepositoryAdapter
 import com.george.copticorphanstask.base.fragments.ActivityFragmentAnnoation
 import com.george.copticorphanstask.base.fragments.MainBaseFragment
 import com.george.copticorphanstask.databinding.FragmentMyReposBinding
+import com.george.copticorphanstask.databinding.FragmentPublicReposBinding
 import com.george.copticorphanstask.domain.RepositoryDomain
 import com.george.copticorphanstask.util.RecyclerViewScrollListener
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,6 +36,7 @@ class MyReposFragment : MainBaseFragment<FragmentMyReposBinding>() {
             toolbar.setupMaterialToolbar()
 
             userReposList.observe(viewLifecycleOwner, listObserver())
+            errorShowEvent.observe(viewLifecycleOwner, errorObserver())
 
             swipeRefresh.setOnRefreshListener {
                 onResetUserRepos()
@@ -63,5 +66,11 @@ class MyReposFragment : MainBaseFragment<FragmentMyReposBinding>() {
                 swipeRefresh.isRefreshing = false
             }
         }
+
+    private fun FragmentMyReposBinding.errorObserver() = Observer<String?> {
+        it?.let { message ->
+            Snackbar.make(requireContext(), root, message, Snackbar.LENGTH_LONG).show()
+        }
+    }
 
 }

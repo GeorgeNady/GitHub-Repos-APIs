@@ -37,6 +37,11 @@ class MyReposViewModel @Inject constructor(
         it?.let { it.success.isLoading() && _firstTime }
     }
 
+    // info: when success and list is empty
+    val searchEmptyTextShowEvent = Transformations.map(userReposList) {
+        _usersReposMutableLiveData.value?.success?.isSuccess() == true && it?.isEmpty() ?: true
+    }
+
     // info: first time load the page  to show bottom progress bar
     val progressShowEvent = Transformations.map(_usersReposMutableLiveData) {
         it?.let { it.success.isLoading() && !_firstTime }
@@ -44,7 +49,7 @@ class MyReposViewModel @Inject constructor(
 
     // info: when error
     val errorShowEvent = Transformations.map(_usersReposMutableLiveData) {
-        it?.success?.isError()
+        if (it?.success?.isError() == true) it.message else null
     }
 
     // info: when start refresh the page

@@ -23,7 +23,7 @@ class PublicReposViewModel @Inject constructor(
     private var _publicReposResponse: MutableList<RepositoryRemote>? = null
     private val _publicReposMutableLiveData = MutableLiveData<Resource<List<RepositoryRemote>>?>()
 
-    // info: list of clashes
+    // info: list of public repos
     val publicReposList = Transformations.map(_publicReposMutableLiveData) {
         it?.data?.asDomainModels() ?: emptyList()
     }
@@ -33,6 +33,11 @@ class PublicReposViewModel @Inject constructor(
         it?.let { it.success.isLoading() && _firstTime }
     }
 
+    // info: when success and list is empty
+    val searchEmptyTextShowEvent = Transformations.map(publicReposList) {
+        _publicReposMutableLiveData.value?.success?.isSuccess() == true && it?.isEmpty() ?: true
+    }
+
     // info: first time load the page  to show bottom progress bar
     val progressShowEvent = Transformations.map(_publicReposMutableLiveData) {
         it?.let { it.success.isLoading() && !_firstTime }
@@ -40,7 +45,7 @@ class PublicReposViewModel @Inject constructor(
 
     // info: when error
     val errorShowEvent = Transformations.map(_publicReposMutableLiveData) {
-        it?.success?.isError()
+        if (it?.success?.isError() == true) it.message else null
     }
 
     // info: when start refresh the page
