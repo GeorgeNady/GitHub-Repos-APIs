@@ -1,9 +1,8 @@
-package com.george.copticorphanstask.ui.main.fragments.main_frag
+package com.george.copticorphanstask.ui.main.fragments.my_repo_frag
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.george.copticorphanstask.R.layout.fragment_my_repos
 import com.george.copticorphanstask.adapter.repository.RepositoryAdapter
 import com.george.copticorphanstask.base.fragments.ActivityFragmentAnnoation
@@ -44,6 +43,7 @@ class MyReposFragment : MainBaseFragment<FragmentMyReposBinding>() {
 
     }
 
+    // Y ///////////////////////////////////////////////////////////////////////////// RECYCLER VIEW
     private val scrollListener = RecyclerViewScrollListener {
         myReposViewModel.onLoadMoreUserRepos()
     }

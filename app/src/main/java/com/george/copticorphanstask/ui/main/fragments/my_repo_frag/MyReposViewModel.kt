@@ -1,4 +1,4 @@
-package com.george.copticorphanstask.ui.main.fragments.main_frag
+package com.george.copticorphanstask.ui.main.fragments.my_repo_frag
 
 import androidx.lifecycle.*
 import com.george.copticorphanstask.network.Resource
@@ -26,7 +26,7 @@ class MyReposViewModel @Inject constructor(
     val usersReposMutableLiveData: LiveData<Resource<MutableList<RepositoryRemote>>?> =
         _usersReposMutableLiveData
 
-    // info: list of clashes
+    // info: list of user repos
     val userReposList = Transformations.map(_usersReposMutableLiveData) {
         Timber.tag("GEORGE").i("ViewModel: list size >>> ${it?.data?.size}")
         it?.data?.asDomainModels() ?: emptyList()
