@@ -19,7 +19,7 @@ class AuthRepo @Inject constructor(
 ) : BaseDataSource() {
 
     ///////////////////////////////////////////////////////////////////////////////////////// GOOGLE
-    suspend fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult) =
+    fun activityResultHandlerForGoogleLogin(activityResult: ActivityResult) =
         googleService.activityResultHandlerForGoogleLogin(activityResult)
 
     /////////////////////////////////////////////////////////////////////////////////////// FACEBOOK

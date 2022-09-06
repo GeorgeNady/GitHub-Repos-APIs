@@ -6,8 +6,10 @@ import androidx.lifecycle.*
 import com.george.copticorphanstask.firebase.google.FirebaseGoogleService
 import com.george.copticorphanstask.network.Resource
 import com.george.copticorphanstask.repository.AuthRepo
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,13 +39,22 @@ class AuthViewModel @Inject constructor(
 
     // info ******************************************************************************** {GMAIL}
     val googleSignInIntent = repo.googleService.googleSignInClient.signInIntent
-    fun loginWithGmail(activityResult: ActivityResult) : LiveData<Resource<FirebaseUser>> {
-        val mutableLiveData =  MutableLiveData<Resource<FirebaseUser>>()
-        viewModelScope.launch {
-            Timber.i("GOOGLE_LOGIN >>> #1_1")
-            mutableLiveData.value = repo.activityResultHandlerForGoogleLogin(activityResult).value
-        }
-        return mutableLiveData
+    fun loginWithGmail(idToken: String) {
+        _googleLogin.value = Resource.loading()
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        repo.auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Timber.d("signInWithCredential:success")
+                    val user = repo.auth.currentUser
+                    _googleLogin.value = Resource.success(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Timber.w("signInWithCredential:failure", task.exception)
+                    _googleLogin.value = Resource.error("${task.exception}")
+                }
+            }
     }
 
 
@@ -69,7 +80,7 @@ class AuthViewModel @Inject constructor(
                     _signupMutableLiveData.postValue(Resource.error(e.toString()))
                 }
                 .addOnCompleteListener {
-                    onComplete?.let { onComplete() }
+                    onComplete?.let { it() }
                 }
         } else {
             _signupMutableLiveData.postValue(Resource.error("please enter inputs correctly"))
@@ -100,7 +111,7 @@ class AuthViewModel @Inject constructor(
                     _loginMutableLiveData.postValue(Resource.error(e.toString()))
                 }
                 .addOnCompleteListener {
-                    onComplete?.let { onComplete() }
+                    onComplete?.let { it() }
                 }
         } else {
             _loginMutableLiveData.postValue(Resource.error("please enter inputs correctly"))
