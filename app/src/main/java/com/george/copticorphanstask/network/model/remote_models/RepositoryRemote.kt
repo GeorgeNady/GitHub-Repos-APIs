@@ -11,7 +11,7 @@ data class RepositoryRemote @JvmOverloads constructor(
     var description: String? = "",
     @SerializedName("created_at") var createdAt: String? = "N/A",
     var language: String? = "N/A",
-    var visibility: String? = "N/A",
+    var visibility: String? = if (isPrivate) "private" else "public",
     @SerializedName("default_branch") var defaultBranch: String,
     @SerializedName("forks_count") var forks: Int,
     @SerializedName("watchers_count") var watchers: Int,

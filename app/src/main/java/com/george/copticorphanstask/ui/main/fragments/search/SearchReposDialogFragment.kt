@@ -12,6 +12,7 @@ import com.george.copticorphanstask.databinding.BottomSheetSearchBinding
 import com.george.copticorphanstask.domain.RepositoryDomain
 import com.george.copticorphanstask.util.RecyclerViewScrollListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -43,15 +44,18 @@ class SearchReposDialogFragment(frag: MainBaseFragment<*>): BottomSheetDialogFra
         with(binding){
 
             with(searchViewModel) {
-                searchList.observe(viewLifecycleOwner, searchListObserver())
-                searchQuery.apply {
-                    if (!hasObservers()) observe(viewLifecycleOwner, clashesSearchQueryObserver())
-                }
+
 
 
                 swipeRefresh.setOnRefreshListener {
                     onResetSearchClashes(true)
                 }
+
+                searchList.observe(viewLifecycleOwner, searchListObserver())
+                searchQuery.apply {
+                    if (!hasObservers()) observe(viewLifecycleOwner, clashesSearchQueryObserver())
+                }
+                searchErrorShowEvent.observe(viewLifecycleOwner, errorObserver())
             }
         }
     }
@@ -69,6 +73,12 @@ class SearchReposDialogFragment(frag: MainBaseFragment<*>): BottomSheetDialogFra
     private fun clashesSearchQueryObserver() = Observer<String> {
         Timber.i("clashesSearchQuery >>> $it")
         searchViewModel.onResetSearchClashes(true)
+    }
+
+    private fun BottomSheetSearchBinding.errorObserver() = Observer<String?> {
+        it?.let { message ->
+            Snackbar.make(root, message, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     // Y ///////////////////////////////////////////////////////////////////// RECYCLER VIEW HANDLER

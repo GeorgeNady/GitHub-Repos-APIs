@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -13,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
-import java.lang.IllegalArgumentException
 
 abstract class MainBaseFragment<T : ViewDataBinding?> : Fragment() {
 
@@ -84,15 +84,13 @@ abstract class MainBaseFragment<T : ViewDataBinding?> : Fragment() {
      * * when press navigation button {back button / left arrow icon} => __popTpBackStack()__
      * * when click on menu icon that will show always => __go to setting fragment__
      */
-    fun MaterialToolbar.setupMaterialToolbar(hasMenu: Boolean = false, itemIds: IntArray? = null, menuLogic: ((IntArray) -> Boolean)? = null) {
+    fun MaterialToolbar.setupMaterialToolbar(hasMenu: Boolean = false, menuLogic: ((MenuItem) -> Boolean)? = null) {
         setNavigationOnClickListener {
             findNavController().popBackStack()
         }
         if (hasMenu) {
             setOnMenuItemClickListener {
-                menuLogic?.let { it1 ->
-                    itemIds?.let { it2 -> it1(it2) } ?: throw(IllegalArgumentException("itemIds must not null or empty!"))
-                } ?: throw(IllegalArgumentException("menuLogic() Must not be null"))
+                menuLogic?.let { it1 -> it1(it) } ?: false
             }
         }
     }

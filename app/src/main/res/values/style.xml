@@ -21,4 +21,28 @@
 
     </style>
 
+    <!-- info: Search TextInputLayoutStyle-->
+    <style name="SearchTextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:layout_marginHorizontal">@dimen/mg_large</item>
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="endIconContentDescription">@string/search</item>
+        <item name="endIconDrawable">@drawable/ic_search</item>
+        <item name="endIconMode">custom</item>
+    </style>
+
+    <!-- info: Search TextInputLayoutStyle-->
+    <style name="SearchTextInputEditText" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingVertical">0dp</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+
 </resources>

@@ -8,6 +8,11 @@
         <variable
             name="bPublicRepoViewModel"
             type="com.george.copticorphanstask.ui.main.fragments.public_repo_frag.PublicReposViewModel" />
+
+        <variable
+            name="bSearchViewModel"
+            type="com.george.copticorphanstask.ui.main.fragments.public_repo_frag.PublicReposViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,7 +51,7 @@
                 <!-- info: empty text view -->
                 <TextView
                     android:id="@+id/tvEmptyContent"
-                    setVisiblyWithBoolean="@{bPublicRepoViewModel.errorShowEvent}"
+                    setVisiblyWithBoolean="@{bPublicRepoViewModel.searchEmptyTextShowEvent}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/mg_extra_large"

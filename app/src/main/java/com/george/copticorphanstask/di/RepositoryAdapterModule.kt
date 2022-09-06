@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
+import javax.inject.Named
 
 @Module
 @InstallIn(FragmentComponent::class)
@@ -18,6 +19,12 @@ object RepositoryAdapterModule {
      */
     @Provides
     fun provideRepositoryAdapter(
+        fragment: Fragment
+    ) = RepositoryAdapter(fragment as MainBaseFragment<*>)
+
+    @Provides
+    @Named("bottom_sheet")
+    fun provideRepositoryAdapterForBottomSheet(
         fragment: Fragment
     ) = RepositoryAdapter(fragment as MainBaseFragment<*>)
 

@@ -1,6 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="bSearchViewModel"
+            type="com.george.copticorphanstask.ui.main.fragments.search.SearchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/bottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_theme_onSecondary"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/mg_extra_large"
+                    android:layout_height="@dimen/mg_small"
+                    android:layout_marginVertical="@dimen/mg_default"
+                    android:background="@drawable/shape" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                setOnStartSwipeRefresh="@{bSearchViewModel.searchRefreshSwipeEvent}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- info: empty text view -->
+                    <TextView
+                        android:id="@+id/tvEmptyContent"
+                        setVisiblyWithBoolean="@{bSearchViewModel.searchEmptyTextShowEvent}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/mg_extra_large"
+                        android:gravity="center"
+                        android:text="@string/no_search_result"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+
+                    <!-- info: shimmer effect -->
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer"
+                        setVisiblyWithBoolean="@{bSearchViewModel.searchShimmerShowEvent}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:clipToPadding="false"
+                        android:paddingTop="@dimen/mg_extra_large"
+                        tools:visibility="visible">
+
+                        <include layout="@layout/item_repos_shimmer_content" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <!-- info: repositories list -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvRepositories"
+                        setVisiblyWithBoolean="@{!bSearchViewModel.searchShimmerShowEvent}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/mg_extra_large"
+                        android:paddingBottom="@dimen/mg_extra_large"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_github_repo" />
+
+                    <!-- info: load more progress -->
+                    <ProgressBar
+                        android:id="@+id/progressPagination"
+                        setVisiblyWithBoolean="@{bSearchViewModel.searchProgressShowEvent}"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginBottom="@dimen/mg_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:visibility="visible" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/etSearchLayout"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="@dimen/mg_default"
+                android:layout_marginTop="@dimen/mg_small"
+                app:cardBackgroundColor="@color/md_theme_primaryContainer"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="@dimen/mg_small">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints="name"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:onTextChanged="@{bSearchViewModel.textChangeListener}"
+                    android:paddingHorizontal="@dimen/mg_default"
+                    android:paddingVertical="10dp"
+                    android:textSize="15sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

@@ -40,5 +40,6 @@
     <string name="public_repositories">Public repositories</string>
     <string name="my_repository">My Repository</string>
     <string name="search">Search</string>
+    <string name="no_search_result">No search result</string>
 
 </resources>

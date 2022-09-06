@@ -13,7 +13,9 @@ import com.george.copticorphanstask.databinding.FragmentPublicReposBinding
 import com.george.copticorphanstask.domain.RepositoryDomain
 import com.george.copticorphanstask.ui.auth.AuthActivity
 import com.george.copticorphanstask.ui.auth.AuthViewModel
+import com.george.copticorphanstask.ui.main.fragments.search.SearchReposDialogFragment
 import com.george.copticorphanstask.util.RecyclerViewScrollListener
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,26 +37,15 @@ class PublicReposFragment : MainBaseFragment<FragmentPublicReposBinding>() {
 
     override fun FragmentPublicReposBinding.setListener() {
 
-        toolbar.setupMaterialToolbar(true, intArrayOf(R.id.logout)) { ints ->
-            ints.maxOf {
-                when(it) {
-                    R.id.logout -> {
-                        authViewModel.logout()
-                        startActivity<AuthActivity>()
-                        true
-                    }
-                    R.id.search -> {
-//                        PublicReposFragmentDirections.searchactin
-                        true
-                    }
-                    else -> false
-                }
+        toolbar.setupMaterialToolbar(true) { menuItem ->
+            when(menuItem.itemId) {
+                R.id.logout -> logoutHandler()
+                R.id.search -> bottomSheetHandler()
+                else -> false
             }
         }
 
         with(viewModel) {
-            publicReposList.observe(viewLifecycleOwner, listObserver())
-
             swipeRefresh.setOnRefreshListener {
                 onResetPublicRepos()
             }
@@ -63,7 +54,30 @@ class PublicReposFragment : MainBaseFragment<FragmentPublicReposBinding>() {
                 findNavController().navigate(
                     PublicReposFragmentDirections.actionPublicReposFragmentToMainFragment())
             }
+
+            publicReposList.observe(viewLifecycleOwner, listObserver())
+            errorShowEvent.observe(viewLifecycleOwner, errorObserver())
         }
+    }
+
+    /**
+     * * call log out from the view model
+     * * navigate to the [AuthActivity]
+     * * finish current [MainActivity]
+     */
+    private fun logoutHandler(): Boolean {
+        authViewModel.logout()
+        startActivity<AuthActivity>(true)
+        return true
+    }
+
+    /**
+     * ### create a bottom sheet and expand it
+     */
+    private fun bottomSheetHandler(): Boolean {
+        val modalBottomSheet = SearchReposDialogFragment(this@PublicReposFragment)
+        modalBottomSheet.show(requireActivity().supportFragmentManager, SearchReposDialogFragment.TAG)
+        return true
     }
 
     // Y ///////////////////////////////////////////////////////////////////////////// RECYCLER VIEW
@@ -87,5 +101,11 @@ class PublicReposFragment : MainBaseFragment<FragmentPublicReposBinding>() {
                 swipeRefresh.isRefreshing = false
             }
         }
+
+    private fun FragmentPublicReposBinding.errorObserver() = Observer<String?> {
+        it?.let { message ->
+            Snackbar.make(requireContext(), root, message, Snackbar.LENGTH_LONG).show()
+        }
+    }
 
 }
